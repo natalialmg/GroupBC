@@ -1,4 +1,4 @@
-dataset ='celebA_blond'
+# dataset ='celebA_blond'
 dataset ='CUB'
 # dataset = 'cifar10'
 
@@ -14,14 +14,15 @@ augmentation = True
 
 scheduler = None
 # scheduler = 'CosineAnnealingLR'
-scheduler = 'ManualLRDecayPlateau'
+# scheduler = 'ManualLRDecayPlateau'
 scheduler = 'ManualLRDecayNWReset'
 # scheduler = 'OneCycleLR'
 # scheduler = 'MultiStepLR'
 
-train_mode = 'vanilla'
+# train_mode = 'vanilla'
 # train_mode = 'group_dro'
 train_mode = 'group_minmax'
+
 # train_mode = 'group_minmax_erm'
 # train_mode = 'group_minmax_balance'
 
@@ -70,7 +71,7 @@ if optim == 'sgd':
         model_name_prefix = model_name_prefix + '_sgd1e1_'
     elif dataset in ['celebA_blond', 'CUB']:
 
-        if train_mode in ['group_minmax']:
+        if train_mode in ['group_minmax','group_dro']:
             lr = 1e-4
             model_name_prefix = model_name_prefix + '_sgd1e4_'
         else:
@@ -136,18 +137,66 @@ loss_list = ['CE']
 
 ## seed list
 seed_list=[42,43,44,45,46]
-seed_list=[42,43,44]
-# seed_list=[42]
+seed_list=[42]
+seed_list=[42,43,44,45,46]
+seed_list=[44,45,46]
+
+# seed_list=[46]
 split_list = [1]
-gpu =0
+gpu = 0
 
 # if train_mode in ['group_minmax']:
 # group_param_dic = {'e0mw05cd025':[0,0.5,0.25]}
 group_param_dic = {'e0mw025cd025':[0,0.25,0.25]}
 group_param_dic = {'e0mw01cd025':[0,0.1,0.25]}
-group_param_dic = {'e0mw05cd025':[0,0.5,0.25]}
+# group_param_dic = {'e0mw05cd025':[0,0.5,0.25]}
+
+group_param_dic = {'e001mw05cd025':[0.01,0.5,0.25]}
+group_param_dic = {'e0001mw05cd025':[0.001,0.5,0.25]}
+# group_param_dic = {'e01mw05cd025':[0.1,0.5,0.25]}
+# group_param_dic = {'e025mw05cd025':[0.25,0.5,0.25]}
 
 file_bash_name = dataset+'_bash.sh'
+
+
+# group_param_dic = {'pg05mw05cd025':[0.5,0.5,0.25]}
+
+
+# group_param_dic = {'pg0mw05cd025':[0.0,0.5,0.25]}
+
+group_param_dic = {'pg0mw05cd025':[0.0,0.5,0.25],
+                   'pg0001mw05cd025': [0.001, 0.5, 0.25],
+                   'pg001mw05cd025': [0.01, 0.5, 0.25],
+                   'pg01mw05cd025': [0.1, 0.5, 0.25],
+                   'pg05mw05cd025': [0.5, 0.5, 0.25],
+                   'pg08mw05cd025': [0.8, 0.5, 0.25],
+                   'pg1mw05cd025': [1.0, 0.5, 0.25]}
+
+
+
+# group_param_dic = {'pg1mw05cd025': [1.0, 0.5, 0.25]}
+
+
+group_param_dic = {'pg0mw05cd025':[0.0,0.5,0.25],
+                   'pg0001mw05cd025': [0.001, 0.5, 0.25],
+                   'pg001mw05cd025': [0.01, 0.5, 0.25],
+                   'pg01mw05cd025': [0.1, 0.5, 0.25],
+                   'pg05mw05cd025': [0.5, 0.5, 0.25],
+                   'pg08mw05cd025': [0.8, 0.5, 0.25]}
+
+# group_param_dic = {'pg07mw05cd025': [0.7, 0.5, 0.25],
+                   # 'pg09mw05cd025': [0.9, 0.5, 0.25]}
+
+group_param_dic = {'pg1mw05cd025': [1.0, 0.5, 0.25]}
+
+if train_mode not in ['group_minmax']:
+    group_param_dic = {'':[0.0,0.5,0.25]}
+
+# group_param_dic = {'pg08mw05cd025': [0.8, 0.5, 0.25]}
+
+
+min_weight_prior = True
+
 with open(file_bash_name,'w') as f:
     for split in split_list:
         for seed in seed_list:
@@ -166,8 +215,8 @@ with open(file_bash_name,'w') as f:
 
                     cmd = 'python main.py --basedir="{}" --dataset="{}" --model_name="{}" --gpu={} --seed={} --split={} --augmentation={}'.format(basedir, dataset,model_name,
                                                                                                                                                   gpu, seed, split,augmentation)
-                    cmd = cmd + ' --batch={} --network="{}" --pretrained={} --optim_wreg={} --optim="{}" --lr={}'.format(batchsize, net, pretrained,
-                                                                                                                         optim_wreg, optim, lr)
+                    cmd = cmd + ' --batch={} --network="{}" --pretrained={} --optim_wreg={} --optim="{}" --lr={} --min_weight_prior={}'.format(batchsize, net, pretrained,
+                                                                                                                         optim_wreg, optim, lr,min_weight_prior)
                     cmd = cmd + ' --loss="{}" --epochs={} --min_weight={} --max_weight_change={} --cost_delta_improve={}'.format(loss, epochs, min_weight,
                                                                                                                                  max_weight_change, cost_delta_improve)
                     cmd = cmd + ' --normlayer="{}" --dataset_reduction={} --train_mode="{}" --scheduler="{}" > {}.txt '.format(normlayer, dataset_reduction,

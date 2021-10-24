@@ -6,10 +6,11 @@ import pandas as pd
 from distutils.util import strtobool
 from general.dataloaders import *
 from general.datasets import *
+from models.robust_training import euclidean_proj_simplex
 from general.network import *
 from general.utils import *
 from models.training import *
-
+import torch
 from models.model import *
 from general.network import *
 
@@ -55,6 +56,7 @@ cparser.add_argument('--max_weight_change', action='store', default=0.25, type=f
 cparser.add_argument('--cost_delta_improve', action='store', default=0.25, type=float, help='max cost_delta_improve')
 cparser.add_argument('--lr_weight', action='store', default=0.1, type=float, help='lr weight PGA ')
 cparser.add_argument('--min_weight', action='store', default=0.0, type=float, help='min group weight')
+cparser.add_argument('--min_weight_prior', action='store', default=False,type=lambda x: bool(strtobool(x)),help='boolean: regression (default false)')
 
 
 cparser = cparser.parse_args()
@@ -179,6 +181,7 @@ if __name__== '__main__':
         strat_tag = 'utility'
         group_tag_dataset = 'group'
         convert_conv1 = False
+        num_max_batch = np.ceil(10000/cparser.batch)
 
         import torchvision.transforms as tt
         stats = ((0.485, 0.456, 0.406),
@@ -371,6 +374,7 @@ if __name__== '__main__':
     sampler_on = False
     if 'group' in cparser.train_mode :
 
+
         group_tag = group_tag_dataset
         group_prior = pd_train_split.groupby(group_tag)['utility'].count().values / len(pd_train_split)
 
@@ -380,9 +384,18 @@ if __name__== '__main__':
 
         train_mode_params['max_weight_change'] = cparser.max_weight_change
         train_mode_params['cost_delta_improve'] = cparser.cost_delta_improve
-        train_mode_params['min_weight'] = cparser.min_weight
+        if cparser.min_weight_prior :
+            train_mode_params['min_weight'] = cparser.min_weight*group_prior
+        else:
+            train_mode_params['min_weight'] = cparser.min_weight*np.ones_like(group_prior)
         train_mode_params['lr_penalty'] = cparser.lr_weight
-        train_mode_params['weights_init'] = group_prior
+
+        # print(train_mode_params['min_weight'], np.sum(train_mode_params['min_weight']))
+        if np.sum(train_mode_params['min_weight']) > 1:
+            train_mode_params['min_weight'] = train_mode_params['min_weight']/np.sum(train_mode_params['min_weight'])
+
+        weight_init = to_np(euclidean_proj_simplex(torch.from_numpy(group_prior), s=1, e=train_mode_params['min_weight']))
+        train_mode_params['weights_init'] = weight_init
 
         # if cparser.train_mode  == 'group_minmax' :
             # config.cost_delta_improve = 0.25
@@ -421,6 +434,9 @@ if __name__== '__main__':
         print('group_prior :', train_mode_params['group_prior'] )
         print('group_constrain :',train_mode_params['group_constrain'] )
         print('group_constrain_acc :',train_mode_params['group_constrain_acc'] )
+
+        print('min weight :', train_mode_params['min_weight'])
+        print('weight_init :', train_mode_params['weights_init'])
         group2cat = True
 
     else:
