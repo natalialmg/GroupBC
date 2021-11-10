@@ -1,5 +1,5 @@
-# dataset ='celebA_blond'
-dataset ='CUB'
+dataset ='celebA_blond'
+# dataset ='CUB'
 # dataset = 'cifar10'
 
 basedir = '/data/natalia/models/' + dataset + '/'
@@ -11,7 +11,7 @@ augmentation = True
 
 scheduler = None
 # scheduler = 'CosineAnnealingLR'
-# scheduler = 'ManualLRDecayPlateau'
+scheduler = 'ManualLRDecayPlateau'
 scheduler = 'ManualLRDecayNWReset'
 # scheduler = 'OneCycleLR'
 # scheduler = 'MultiStepLR'
@@ -52,7 +52,7 @@ if optim == 'sgd':
         model_name_prefix = model_name_prefix + '_sgd1e1_'
     elif dataset in ['celebA_blond', 'CUB']:
 
-        if train_mode in ['gmmf']:
+        if train_mode in ['gmmf','erm']:
             lr = 1e-4
             model_name_prefix = model_name_prefix + '_sgd1e4_'
         else:

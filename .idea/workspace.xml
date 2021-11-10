@@ -24,8 +24,8 @@
       <file leaf-file-name="model.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="407">
-              <caret line="305" column="35" selection-start-line="305" selection-start-column="35" selection-end-line="305" selection-end-column="35" />
+            <state relative-caret-position="765">
+              <caret line="290" column="76" selection-start-line="290" selection-start-column="76" selection-end-line="290" selection-end-column="76" />
               <folding>
                 <element signature="e#480#962#0" expanded="false" />
                 <element signature="e#1072#3500#0" expanded="false" />
@@ -46,22 +46,32 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main_bc.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="main_bc.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mains/main_bc.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="633">
+              <caret line="368" column="0" selection-start-line="368" selection-start-column="0" selection-end-line="368" selection-end-column="0" />
+              <folding>
+                <element signature="e#4214#5097#0" expanded="false" />
+                <element signature="e#5149#6400#0" expanded="false" />
+                <element signature="e#6443#7813#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dataloaders.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/general/dataloaders.py">
+      <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mains/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1260">
-              <caret line="93" column="88" selection-start-line="93" selection-start-column="88" selection-end-line="93" selection-end-column="88" />
-              <folding />
+            <state relative-caret-position="81">
+              <caret line="249" column="0" selection-start-line="249" selection-start-column="0" selection-end-line="335" selection-end-column="0" />
+              <folding>
+                <element signature="e#4156#5039#0" expanded="false" />
+                <element signature="e#5091#6342#0" expanded="false" />
+                <element signature="e#6385#7755#0" expanded="false" />
+                <element signature="e#7791#8418#0" expanded="false" />
+                <element signature="e#8437#8544#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -69,7 +79,7 @@
       <file leaf-file-name="robust_training.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/robust_training.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
+            <state relative-caret-position="390">
               <caret line="103" column="19" selection-start-line="103" selection-start-column="19" selection-end-line="103" selection-end-column="19" />
               <folding>
                 <element signature="e#304#3009#0" expanded="false" />
@@ -83,47 +93,22 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CUB_exp_gmmf.sh" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/mains/CUB_exp_gmmf.sh">
+      <file leaf-file-name="CUB_gmmf_experiments.sh" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/experiments/CUB_gmmf_experiments.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+            <state relative-caret-position="240">
+              <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="utils.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/general/utils.py">
+      <file leaf-file-name="CUB_erm_experiments.sh" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/experiments/CUB_erm_experiments.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="107" column="0" selection-start-line="107" selection-start-column="0" selection-end-line="107" selection-end-column="0" />
-              <folding>
-                <element signature="e#175#1643#0" expanded="false" />
-                <element signature="e#1663#1694#0" expanded="false" />
-                <element signature="e#1729#2025#0" expanded="false" />
-                <element signature="e#2053#2394#0" expanded="false" />
-                <element signature="e#2471#2657#0" expanded="false" />
-                <element signature="e#2734#3036#0" expanded="false" />
-                <element signature="e#3065#3119#0" expanded="false" />
-                <element signature="e#3161#3230#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mains/main.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="35" column="73" selection-start-line="35" selection-start-column="73" selection-end-line="35" selection-end-column="73" />
-              <folding>
-                <element signature="e#4156#5039#0" expanded="false" />
-                <element signature="e#5091#6342#0" expanded="false" />
-                <element signature="e#6385#7755#0" expanded="false" />
-                <element signature="e#7791#8418#0" expanded="false" />
-                <element signature="e#8437#8544#0" expanded="false" />
-              </folding>
+            <state relative-caret-position="30">
+              <caret line="2" column="348" selection-start-line="2" selection-start-column="348" selection-end-line="2" selection-end-column="348" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -131,10 +116,10 @@
       <file leaf-file-name="bash_main.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mains/bash_main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="472">
-              <caret line="158" column="163" selection-start-line="158" selection-start-column="163" selection-end-line="158" selection-end-column="163" />
+            <state relative-caret-position="420">
+              <caret line="40" column="0" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
               <folding>
-                <element signature="e#1664#2264#0" expanded="false" />
+                <element signature="e#1668#2268#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -143,28 +128,14 @@
       <file leaf-file-name="training.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/training.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="34" column="35" selection-start-line="34" selection-start-column="35" selection-end-line="34" selection-end-column="35" />
+            <state relative-caret-position="435">
+              <caret line="156" column="54" selection-start-line="156" selection-start-column="54" selection-end-line="156" selection-end-column="54" />
               <folding>
                 <element signature="e#223#1059#0" expanded="false" />
                 <element signature="e#1102#3079#0" expanded="false" />
                 <element signature="e#3118#3734#0" expanded="false" />
                 <element signature="e#3835#4926#0" expanded="false" />
                 <element signature="e#5244#7690#0" expanded="false" />
-                <element signature="e#8051#16485#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="losses.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/general/losses.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="20" column="57" selection-start-line="19" selection-start-column="12" selection-end-line="20" selection-end-column="57" />
-              <folding>
-                <element signature="e#1194#2883#0" expanded="false" />
-                <element signature="e#1240#1306#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -197,11 +168,16 @@
         <option value="$PROJECT_DIR$/models/gen_training.py" />
         <option value="$PROJECT_DIR$/models/training.py" />
         <option value="$PROJECT_DIR$/models/model.py" />
-        <option value="$PROJECT_DIR$/mains/main_bc.py" />
         <option value="$PROJECT_DIR$/mains/main.py" />
-        <option value="$PROJECT_DIR$/mains/bash_main.py" />
         <option value="$PROJECT_DIR$/models/robust_training.py" />
         <option value="$PROJECT_DIR$/mains/CUB_exp_gmmf.sh" />
+        <option value="$PROJECT_DIR$/mains/CUB_gmmf_experiments.sh" />
+        <option value="$PROJECT_DIR$/experiments/CUB_gmmf_experiments.sh" />
+        <option value="$PROJECT_DIR$/experiments/celebA_erm_experiments.sh" />
+        <option value="$PROJECT_DIR$/experiments/CUB_erm_experiments.sh" />
+        <option value="$PROJECT_DIR$/mains/bash_main.py" />
+        <option value="$PROJECT_DIR$/experiments/celebA_gmmf_experiments.sh" />
+        <option value="$PROJECT_DIR$/mains/main_bc.py" />
       </list>
     </option>
   </component>
@@ -212,10 +188,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1535" />
-    <option name="y" value="67" />
-    <option name="width" value="1612" />
-    <option name="height" value="971" />
+    <option name="x" value="46" />
+    <option name="y" value="182" />
+    <option name="width" value="1280" />
+    <option name="height" value="740" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -270,35 +246,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="models" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="GroupBC" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="GroupBC" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mains" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="GroupBC" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="GroupBC" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="general" />
+              <option name="myItemId" value="experiments" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -312,6 +260,11 @@
     <property name="settings.editor.selected.configurable" value="web.server" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="WebServerToolWindowFactoryState" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/experiments" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration default="true" type="DjangoTestsConfigurationType" factoryName="Django tests">
@@ -537,16 +490,16 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1535" y="67" width="1612" height="971" extended-state="0" />
-    <editor active="true" />
+    <frame x="46" y="182" width="1280" height="740" extended-state="0" />
+    <editor active="false" />
     <layout>
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12292994" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1558966" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24687144" sideWeight="0.50254774" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24687144" sideWeight="0.50254774" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="File Transfer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24687144" sideWeight="0.49745223" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="File Transfer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24687144" sideWeight="0.49745223" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3287037" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -561,6 +514,28 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
+    <layout-to-restore>
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24687144" sideWeight="0.50254774" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="File Transfer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24687144" sideWeight="0.49745223" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12292994" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+    </layout-to-restore>
   </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USER_GROUPS">
@@ -575,7 +550,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="23" />
+      <option name="time" value="24" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -636,7 +611,6 @@
             <element signature="e#3118#3734#0" expanded="false" />
             <element signature="e#3835#4926#0" expanded="false" />
             <element signature="e#5244#7690#0" expanded="false" />
-            <element signature="e#8051#16485#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -719,7 +693,6 @@
             <element signature="e#3118#3734#0" expanded="false" />
             <element signature="e#3835#4926#0" expanded="false" />
             <element signature="e#5244#7690#0" expanded="false" />
-            <element signature="e#8051#16485#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -766,7 +739,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#1664#2264#0" expanded="false" />
+            <element signature="e#1668#2268#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -856,7 +829,6 @@
             <element signature="e#3118#3734#0" expanded="false" />
             <element signature="e#3835#4926#0" expanded="false" />
             <element signature="e#5244#7690#0" expanded="false" />
-            <element signature="e#8051#16485#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -978,23 +950,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/models/training.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="34" column="35" selection-start-line="34" selection-start-column="35" selection-end-line="34" selection-end-column="35" />
+        <state relative-caret-position="435">
+          <caret line="156" column="54" selection-start-line="156" selection-start-column="54" selection-end-line="156" selection-end-column="54" />
           <folding>
             <element signature="e#223#1059#0" expanded="false" />
             <element signature="e#1102#3079#0" expanded="false" />
             <element signature="e#3118#3734#0" expanded="false" />
             <element signature="e#3835#4926#0" expanded="false" />
             <element signature="e#5244#7690#0" expanded="false" />
-            <element signature="e#8051#16485#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/models/model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="407">
-          <caret line="305" column="35" selection-start-line="305" selection-start-column="35" selection-end-line="305" selection-end-column="35" />
+        <state relative-caret-position="765">
+          <caret line="290" column="76" selection-start-line="290" selection-start-column="76" selection-end-line="290" selection-end-column="76" />
           <folding>
             <element signature="e#480#962#0" expanded="false" />
             <element signature="e#1072#3500#0" expanded="false" />
@@ -1014,41 +985,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mains/main_bc.py">
+    <entry file="file://$PROJECT_DIR$/experiments/CUB_gmmf_experiments.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="240">
+          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mains/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="35" column="73" selection-start-line="35" selection-start-column="73" selection-end-line="35" selection-end-column="73" />
-          <folding>
-            <element signature="e#4156#5039#0" expanded="false" />
-            <element signature="e#5091#6342#0" expanded="false" />
-            <element signature="e#6385#7755#0" expanded="false" />
-            <element signature="e#7791#8418#0" expanded="false" />
-            <element signature="e#8437#8544#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mains/bash_main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="472">
-          <caret line="158" column="163" selection-start-line="158" selection-start-column="163" selection-end-line="158" selection-end-column="163" />
-          <folding>
-            <element signature="e#1664#2264#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/models/robust_training.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
+        <state relative-caret-position="390">
           <caret line="103" column="19" selection-start-line="103" selection-start-column="19" selection-end-line="103" selection-end-column="19" />
           <folding>
             <element signature="e#304#3009#0" expanded="false" />
@@ -1061,11 +1008,63 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mains/CUB_exp_gmmf.sh">
+    <entry file="file://$PROJECT_DIR$/experiments/CUB_erm_experiments.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+        <state relative-caret-position="30">
+          <caret line="2" column="348" selection-start-line="2" selection-start-column="348" selection-end-line="2" selection-end-column="348" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/experiments/celebA_gmmf_experiments.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="40" selection-start-line="5" selection-start-column="40" selection-end-line="5" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/experiments/celebA_erm_experiments.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mains/bash_main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="40" column="0" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
+          <folding>
+            <element signature="e#1668#2268#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mains/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="81">
+          <caret line="249" column="0" selection-start-line="249" selection-start-column="0" selection-end-line="335" selection-end-column="0" />
+          <folding>
+            <element signature="e#4156#5039#0" expanded="false" />
+            <element signature="e#5091#6342#0" expanded="false" />
+            <element signature="e#6385#7755#0" expanded="false" />
+            <element signature="e#7791#8418#0" expanded="false" />
+            <element signature="e#8437#8544#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mains/main_bc.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="633">
+          <caret line="368" column="0" selection-start-line="368" selection-start-column="0" selection-end-line="368" selection-end-column="0" />
+          <folding>
+            <element signature="e#4214#5097#0" expanded="false" />
+            <element signature="e#5149#6400#0" expanded="false" />
+            <element signature="e#6443#7813#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

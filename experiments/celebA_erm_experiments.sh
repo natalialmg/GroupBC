@@ -1,0 +1,5 @@
+
+#### Train initial ERM model (h1) with 40% of total training dataset
+
+python main.py --basedir="/data/natalia/models/celebA_blond/" --dataset="celebA_blond" --model_name="erm_resnet34_pretrained_batchnorm_sgd1e4_ManualLRDecayPlateau_reg1e4_datared04_CE_seed42_split1" --gpu=0 --seed=42 --split=1 --augmentation=True --batch=64 --network="resnet34" --pretrained=True --optim_wreg=0.0001 --optim="sgd" --lr=0.0001 --loss="CE" --epochs=52 --normlayer="batchnorm" --dataset_reduction=0.4 --train_mode="erm" --scheduler="ManualLRDecayPlateau" > celebA_blond_erm_resnet34_pretrained_batchnorm_sgd1e4_ManualLRDecayPlateau_reg1e4_datared04_CE_seed42_split1_verbose.txt
+
