@@ -74,7 +74,7 @@ class ManualLRDecayNWReset(object):
                     self.counter_nw_reset += 1
                 else:
                     print('reset network ')
-                    self.model_reset_func(self.network,self.optimizer)
+                    self.model_reset_func(self.network, self.optimizer)
                     self.best_loss_nw = None
                     self.best_loss = None
                     self.counter = 0

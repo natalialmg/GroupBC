@@ -41,7 +41,7 @@ cparser.add_argument('--normlayer', action='store', default='batchnorm', type=st
 cparser.add_argument('--epochs', action='store', default=501, type=int, help='epochs')
 cparser.add_argument('--epochs_warmup', action='store', default=1000, type=int, help='epochs warmup')
 cparser.add_argument('--loss', action='store', default='CE', type=str,help='loss')
-cparser.add_argument('--train_mode', action='store', default='vanilla', type=str,  help='string: train mode (default vanilla)')
+cparser.add_argument('--train_mode', action='store', default='erm', type=str,  help='string: train mode (default vanilla)')
 
 cparser.add_argument('--lr', action='store', default=1e-4, type=float, help='learners learning rate ')
 cparser.add_argument('--optim', action='store', default='adam', type=str,help='Learners optimizer')
@@ -56,7 +56,7 @@ cparser.add_argument('--max_weight_change', action='store', default=0.25, type=f
 cparser.add_argument('--cost_delta_improve', action='store', default=0.25, type=float, help='max cost_delta_improve')
 cparser.add_argument('--lr_weight', action='store', default=0.1, type=float, help='lr weight PGA ')
 cparser.add_argument('--min_weight', action='store', default=0.0, type=float, help='min group weight')
-cparser.add_argument('--min_weight_prior', action='store', default=False,type=lambda x: bool(strtobool(x)),help='boolean: regression (default false)')
+cparser.add_argument('--min_weight_prior', action='store', default=False,type=lambda x: bool(strtobool(x)),help='boolean: min weight = cparser.min_weight * group_prior')
 
 
 cparser = cparser.parse_args()
@@ -67,82 +67,7 @@ cparser = cparser.parse_args()
 if __name__== '__main__':
 
     ##### DATASETS
-    num_max_batch = np.ceil(5000 / cparser.batch)
-    if cparser.dataset == 'cifar100_coarse':
-        print('###########   Dataset :: ', cparser.dataset)
-
-        # only default split in terms of test train
-        pd_train,pd_test = CIFAR100(utility_tag = "coarse",groups_tag = "coarse")
-        file_tag = 'data'
-        strat_tag = 'utility'
-        group_tag_dataset = 'utility'
-        convert_conv1 = True  ## convert to kernel 3 convolution first layer resnet
-
-        ## CIFAR Transformations
-        import torchvision.transforms as tt
-
-        stats = ((0.5074, 0.4867, 0.4411),
-                 (0.2011, 0.1987, 0.2025))
-
-        if cparser.augmentation:
-            train_transform = tt.Compose([
-                tt.ToPILImage(),
-                tt.RandomHorizontalFlip(),
-                tt.RandomVerticalFlip(),
-                tt.ToTensor(),
-                tt.Normalize(*stats)
-            ])
-        else:
-            train_transform = tt.Compose([
-            tt.ToPILImage(),
-            tt.ToTensor(),
-            tt.Normalize(*stats)
-            ])
-
-        test_transform = tt.Compose([
-            tt.ToPILImage(),
-            tt.ToTensor(),
-            tt.Normalize(*stats)
-        ])
-
-    if cparser.dataset == 'cifar100_coarse_landanimal':
-        print('###########   Dataset :: ', cparser.dataset)
-
-        # only default split in terms of test train
-        pd_train,pd_test = CIFAR100(utility_tag = "coarse",
-                                    groups_tag = "coarse",
-                                    filter_labels = [8,11,12,15,16])
-        file_tag = 'data'
-        strat_tag = 'utility'
-        group_tag_dataset = 'utility'
-        convert_conv1 = True  ## convert to kernel 3 convolution first layer resnet
-
-        ## CIFAR Transformations
-        import torchvision.transforms as tt
-
-        stats = ((0.5074, 0.4867, 0.4411),
-                 (0.2011, 0.1987, 0.2025))
-
-        if cparser.augmentation:
-            train_transform = tt.Compose([
-                tt.ToPILImage(),
-                tt.RandomHorizontalFlip(),
-                tt.RandomVerticalFlip(),
-                tt.ToTensor(),
-                tt.Normalize(*stats)
-            ])
-        else:
-            train_transform = tt.Compose([
-            tt.ToPILImage(),
-            tt.ToTensor(),
-            tt.Normalize(*stats)
-            ])
-
-        test_transform = tt.Compose([
-            tt.ToPILImage(),
-            tt.ToTensor(),
-            tt.Normalize(*stats)
-        ])
+    num_max_batch = np.ceil(5000 / cparser.batch) #number of batches to consider as one epoch
 
     if cparser.dataset == 'cifar10':
         # only default split in terms of test train
@@ -181,7 +106,7 @@ if __name__== '__main__':
         strat_tag = 'utility'
         group_tag_dataset = 'group'
         convert_conv1 = False
-        num_max_batch = np.ceil(10000/cparser.batch)
+        num_max_batch = np.ceil(10000/cparser.batch) #number of batches to consider as one epoch
 
         import torchvision.transforms as tt
         stats = ((0.485, 0.456, 0.406),
@@ -232,26 +157,16 @@ if __name__== '__main__':
 
         if cparser.augmentation:
             train_transform = tt.Compose([
-                # tt.ToPILImage(),
                 tt.Resize((int(target_resolution[0] * scale), int(target_resolution[1] * scale))),
                 tt.CenterCrop(target_resolution),
-                # tt.RandomResizedCrop(
-                    # target_resolution,
-                    # scale=(0.7, 1.0),
-                    # ratio=(0.75, 1.3333333333333333),
-                    # interpolation=2,
-                # ),
                 tt.RandomHorizontalFlip(),
-                # tt.RandomVerticalFlip(),
                 tt.ToTensor(),
                 tt.Normalize(*stats)
             ])
         else:
             train_transform = tt.Compose([
-            # tt.ToPILImage(),
             tt.Resize((int(target_resolution[0]*scale), int(target_resolution[1]*scale))),
             tt.CenterCrop(target_resolution),
-            # tt.Resize([target_resolution, target_resolution]),
             tt.ToTensor(),
             tt.Normalize(*stats)
             ])
@@ -263,15 +178,6 @@ if __name__== '__main__':
             tt.ToTensor(),
             tt.Normalize(*stats)
         ])
-
-        # pval = 0.2
-        # from sklearn.model_selection import train_test_split
-        #
-        # pd_train_split, pd_val_split = train_test_split(pd_train, test_size=pval,
-        #                                                 random_state=cparser.seed_dataset,
-        #                                                 stratify=pd_train[strat_tag].values)
-
-
 
     if cparser.split > 0:
         from sklearn.model_selection import StratifiedKFold
@@ -300,6 +206,8 @@ if __name__== '__main__':
     pd_all = pd.DataFrame()
     if cparser.dataset_reduction < 1.0:
         from sklearn.model_selection import train_test_split
+
+        #train set reduction
         ixg0, ixg1 = train_test_split(np.arange(len(pd_train_split)),
                                       train_size=cparser.dataset_reduction,
                                       random_state=cparser.seed_dataset,
@@ -308,6 +216,7 @@ if __name__== '__main__':
         pd_other = pd_train_split.iloc[ixg1]
         pd_train_split = pd_train_split.iloc[ixg0]
 
+        #val set reduction
         ixg0, ixg1 = train_test_split(np.arange(len(pd_val_split)),
                                       train_size=cparser.dataset_reduction,
                                       random_state=cparser.seed_dataset,
@@ -336,7 +245,6 @@ if __name__== '__main__':
     print(pd_test.groupby(group_tag_dataset)['dataset'].count()/len(pd_test))
 
 
-
     ######## CONFIG ########
     nutility = len(pd_train['utility'].unique())
 
@@ -360,20 +268,11 @@ if __name__== '__main__':
                         'lr_decay':0.9,
                         'patience':5} #patience for ManualLRDecayPlateau
 
-    # config.train_mode_params['group_constrain']
-    # config.train_mode_params['weights_init']
-    # config.train_mode_params['group_prior']
-    # config.train_mode_params['lr_penalty']
-    # config.train_mode_params['min_weight']
-    # config.train_mode_params['cost_delta_improve'],
-    # config.train_mode_params['max_weight_change'],
-
     train_mode_params = {}
 
     ### Dataloaders ###
     sampler_on = False
-    if 'group' in cparser.train_mode :
-
+    if cparser.train_mode in ['gmmf' ,'gb'] : ## config for group modalities ('gmmf = group minmax fairness, 'gb': group balance)
 
         group_tag = group_tag_dataset
         group_prior = pd_train_split.groupby(group_tag)['utility'].count().values / len(pd_train_split)
@@ -397,39 +296,13 @@ if __name__== '__main__':
         weight_init = to_np(euclidean_proj_simplex(torch.from_numpy(group_prior), s=1, e=train_mode_params['min_weight']))
         train_mode_params['weights_init'] = weight_init
 
-        # if cparser.train_mode  == 'group_minmax' :
-            # config.cost_delta_improve = 0.25
-            # config.max_weight_change = 0.5
-            # config.lr_penalty = 0.1
-            # if cparser.dataset == 'celebA_blond':
-                # config.num_max_batch = np.ceil(25000 / cparser.batch)
-                # num_max_batch = np.ceil(10000 / cparser.batch)
-                # config.max_weight_change = 0.1
 
-            # if cparser.dataset == 'CUB':
-                # config.num_max_batch = np.ceil(25000 / cparser.batch)
-                # num_max_batch = np.ceil(500 / cparser.batch)
-                # config.max_weight_change = 0.1
-
-        # if cparser.train_mode  == 'group_minmax_erm' :
-            # train_mode_params['lr_penalty'] = 0.0
-
-        if cparser.train_mode == 'group_balance':
+        if cparser.train_mode == 'gb':
             train_mode_params['lr_penalty'] = 0.0
             pd_train_split['weights_sampler'] = [1 / group_prior[g] for g in pd_train_split[
                 group_tag].values]  # balance sampler
             sampler_on = True
             print('group_reweight_sampler : ', pd_train_split.groupby(group_tag).mean())
-
-        ## TODO: !
-        # if cparser.train_mode == 'group_dro':
-        #     pd_train_split['weights_sampler'] = [1 / group_prior[g] for g in pd_train_split[group_tag].values] #balance sampler (group DRO requirement)
-        #     sampler_on = True
-        #     config.lr_penalty = 0.1
-        #     if cparser.dataset == 'celebA_blond':
-        #         config.lr_penalty = 0.1
-        #
-        #     print('group_reweight_sampler : ', pd_train_split.groupby(group_tag).mean())
 
         print('group_prior :', train_mode_params['group_prior'] )
         print('group_constrain :',train_mode_params['group_constrain'] )
@@ -484,11 +357,10 @@ if __name__== '__main__':
                                     typenet = config.network_params['network'],convert_conv1=convert_conv1)
 
     if cparser.loadmodel != '':
-        # if os.path.exists(cparser.loadmodel):
-        print(' Loading : ',cparser.loadmodel )
-        model_params_load(cparser.loadmodel,classifier_network,None,config.DEVICE)
+        if os.path.exists(cparser.loadmodel):
+            print(' Loading : ',cparser.loadmodel )
+            model_params_load(cparser.loadmodel,classifier_network,None,config.DEVICE)
 
-    # if (cparser.normlayer != 'batchnorm'): #| (config.dp):
     if cparser.normlayer == 'groupnorm':
         print('BN to GN')
         classifier_network = module_modification.convert_batchnorm_modules(classifier_network)
@@ -502,22 +374,11 @@ if __name__== '__main__':
                                                                            module_modification._batchnorm_to_instancenorm)
 
 
-
-    # inspector = DPModelInspector()
-    # print(f "Is the model valid? {inspector.validate(model)}")
-
-
     ### Trainer ###
     trainer = Model(config, train_dataloader, val_dataloader, classifier_network)
 
 
-    ## DP option
-
-
-
-
     ## Train ###
-    # cparser.epochs_warmup = np.minimum(config.epochs_warmup,cparser.epochs)
     history, evaluation_list = trainer.train_model(epochs=config.EPOCHS,
                                                    epoch_warmup=config.epochs_warmup,
                                                    eval_dataloader=eval_dataloader,

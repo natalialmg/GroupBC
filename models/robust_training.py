@@ -105,6 +105,8 @@ def pga_weights(loss, weight, eta=0.1, iterations=1, decay=0.75, eta_increase_pa
 
     string_0 = 'eta_0 ' + str(eta)
 
+    print()
+    print('PGA updates ... ')
     while (it < iterations):
         it += 1
         # weight_i = np.maximum(weight_list[-1] + eta * loss,0)
@@ -347,7 +349,7 @@ def grm_trainer(train_dataloader, val_dataloader, optimizer,
     history['constrain_train'] = []
     history['constrain_val'] = []
 
-    history['criterion_group_train'] = []
+    history['criterion_group_train'] = []  #group criterion
     history['criterion_group_val'] = []
     history['weights_group'] = []
 
@@ -469,6 +471,7 @@ def grm_trainer(train_dataloader, val_dataloader, optimizer,
         constrain_loss_train = history['criterion_group_train'][-1] - config.train_mode_params['group_constrain']
         constrain_loss_val = history['criterion_group_val'][-1] - config.train_mode_params['group_constrain']
 
+        ## computing worst case weighted loss for train (worst case weight X group_loss_train; weight are constrain to be > min_weight and sum 1)
         if config.train_mode_params['lr_penalty']>0: #lr_penalty = 0 indicates fix weights
             # aux = (1-config.train_mode_params['min_weight']*constrain_loss_train.shape[0])*np.max(constrain_loss_train)
             aux = (1 - np.sum(config.train_mode_params['min_weight'])) * np.max(
@@ -478,6 +481,7 @@ def grm_trainer(train_dataloader, val_dataloader, optimizer,
             aux = np.sum(weights*constrain_loss_train)
         history['constrain_train'].append(aux)
 
+        # computing worst case loss for validation (worst case weight X group_loss_val)
         if config.train_mode_params['lr_penalty']>0:
             # aux = (1 - config.train_mode_params['min_weight'] * constrain_loss_val.shape[0]) * np.max(
             #     constrain_loss_val)
@@ -489,8 +493,8 @@ def grm_trainer(train_dataloader, val_dataloader, optimizer,
             aux = np.sum(weights * constrain_loss_val)
         history['constrain_val'].append(aux)
 
-        print('DEBUG TRAIN,VAL', constrain_loss_train, constrain_loss_val)
-        print('DEBUG TRAIN,VAL',  history['constrain_train'][-1], history['constrain_val'][-1])
+        # print('DEBUG TRAIN,VAL', constrain_loss_train, constrain_loss_val)
+        # print('DEBUG TRAIN,VAL',  history['constrain_train'][-1], history['constrain_val'][-1])
 
 
         ## metric for evaluation -> stopping criteria based on generalization to a metric constrain
@@ -522,17 +526,8 @@ def grm_trainer(train_dataloader, val_dataloader, optimizer,
                 aux = np.sum(weights * constrain_metric_val)
             history['constrain_' + metric_stopper + '_val'].append(aux)
 
-            print('DEBUG TRAIN,VAL', constrain_metric_train, constrain_metric_val)
-            print('DEBUG TRAIN,VAL', history['constrain_' + metric_stopper + '_train'][-1], history['constrain_' + metric_stopper + '_val'][-1])
-
-        #     ## second criteria
-        #     second_criteria_val = np.mean(constrain_metric_val)
-        #     second_criteria_train =np.mean(constrain_metric_train)
-        #
-        # else:
-        #     ## second criteria
-        #     second_criteria_val = np.mean(constrain_loss_val)
-        #     second_criteria_train = np.mean(constrain_loss_train)
+            # print('DEBUG TRAIN,VAL', constrain_metric_train, constrain_metric_val)
+            # print('DEBUG TRAIN,VAL', history['constrain_' + metric_stopper + '_train'][-1], history['constrain_' + metric_stopper + '_val'][-1])
 
         ## for train we will consider loss constrain
         constrain_train = history['constrain_train'][-1]
@@ -547,13 +542,13 @@ def grm_trainer(train_dataloader, val_dataloader, optimizer,
 
             # init stopper penalty -> train
             stopper_train = early_stopping(config.patience, 0, constrain_train) ## constrain is the condition to check
-            epoch_best_train = epoch + 1
+            epoch_best_train = epoch
             model_params_save(config.basedir + config.model_name + '/' + config.best_model_train, classifier_network,
                               optimizer)
 
             # init stopper penalty -> val
             stopper = early_stopping(config.patience, 0, constrain_val) ## constrain is the condition to check
-            epoch_best = epoch + 1
+            epoch_best = epoch
             model_params_save(config.basedir + config.model_name + '/' + config.best_model,
                               classifier_network,
                               optimizer)
@@ -562,7 +557,7 @@ def grm_trainer(train_dataloader, val_dataloader, optimizer,
             #save best train
             save_train, stop_train = stopper_train.evaluate(constrain_train)
             if (save_train):
-                epoch_best_train = epoch + 1
+                epoch_best_train = epoch
                 print('saving best train model, epoch: ', epoch_best_train)
                 model_params_save(config.basedir + config.model_name + '/' + config.best_model_train,
                                   classifier_network,
@@ -571,13 +566,11 @@ def grm_trainer(train_dataloader, val_dataloader, optimizer,
             #save best val
             save, stop = stopper.evaluate(constrain_val)
             if save :
-                epoch_best = epoch + 1
+                epoch_best = epoch
                 print('saving best model, epoch: ', epoch_best)
                 model_params_save(config.basedir + config.model_name + '/' + config.best_model,
                                   classifier_network,
                                   optimizer)
-
-
 
         ##### print
         if ((epoch % config.n_print == config.n_print - 1) & (epoch >= 1)) | (epoch == 0):
@@ -683,16 +676,20 @@ def grm_trainer(train_dataloader, val_dataloader, optimizer,
         columns = ['ypred_' + str(i) for i in range(utility_pred_l.shape[1])]
         pd_eval = pd.DataFrame(data=utility_pred_l, columns=columns)
         pd_eval['ygt'] = utility_gt_l
-        pd_eval['epochs'] = epoch_best + 1
+        pd_eval['epochs'] = epoch_best
         evaluation_list.append(pd_eval)
 
         return history,evaluation_list
     else:
         return history
 
-def  groupDRO_epoch_training(dataloader, classifier_network, criterions, weights,
-                             optimizer, DEVICE, eta_weights = 0.1, train_type= True,metrics_dic = None,
-                             reg_dic=None, reg_weights=None, scheduler = None, num_max_batch = np.infty):
+
+########### Sample BC #########
+
+def  srm_epoch_training(dataloader, classifier_network, criterions,
+                            optimizer, DEVICE, train_type= True,metrics_dic = None,
+                            reg_dic=None, reg_weights=None,scheduler=None, num_max_batch = np.infty):
+
     '''
     This function train or evaluates an epoch TODO:!
     #inputs:
@@ -705,19 +702,13 @@ def  groupDRO_epoch_training(dataloader, classifier_network, criterions, weights
     ###    INITIALIZE MEAN OBJECTS  #######
 
     #loss summary lists
-
-    # print( dataloader.dataset[0][2])
-    ngroups = dataloader.dataset[0][2].shape[0]
-
     output = {}
     output['criterion'] = TravellingMean()
-    output['criterion_group'] = [TravellingMean() for _ in range(ngroups)]
     output['loss'] = TravellingMean()
 
     if metrics_dic is not None: #additional metrics
         for key in metrics_dic.keys():
             output[key] = TravellingMean()
-            output[key+'_group'] = [TravellingMean() for _ in range(ngroups)]
 
     if reg_dic is not None:
         for key in reg_dic.keys():
@@ -728,58 +719,44 @@ def  groupDRO_epoch_training(dataloader, classifier_network, criterions, weights
     else:
         classifier_network = classifier_network.eval()
 
+
+    samples_ix = []
+    samples_loss = []
+    samples_acc = []
+
     for i_batch, sample_batch in enumerate(dataloader):
 
-        x, utility, group = sample_batch
+        x, utility, group, weights = sample_batch
+        # x = input, utility = target prediction, group = sample id, weight = sample weight
+
         x = x.to(DEVICE)
         utility = utility.to(DEVICE)  # batch x nutility
-        group = group.to(DEVICE)  # batch x ngroups
+        weights = weights.to(DEVICE)  #batch x 1 -> weight per sample
 
         # zero the parameter gradients
         optimizer.zero_grad()
 
         # get output and losses
         logits = classifier_network(x)
-
         mass = utility.shape[0]  # number samples batch
 
         #loss
         base_loss = criterions(logits, utility)
+        loss = torch.mean(weights*(base_loss)) #todo:! check que es formulacion importance weight
+
+        # Save per sample id, loss, accuracy
+        samples_ix.extend(list(to_np(group).flatten()))
+        samples_loss.extend(list(to_np(base_loss).flatten()))
+        samples_acc.extend(list((np.argmax(to_np(logits),1) == np.argmax(to_np(utility),1)).astype('int')))
+
+        # print(base_loss.shape, utility.shape)
         output['criterion'].update(val=to_np(base_loss))  # base loss
-
-        #group loss
-        group_loss = torch.sum(base_loss.unsqueeze(-1) * group, axis=0)  # size batch x groups -> size groups
-        ns_groups = group.sum(0)  # number of samples per groups
-        group_loss = group_loss / torch.max(ns_groups, torch.ones_like(ns_groups)) #size ngroups
-
-        if train_type:
-            #update weights (MWU)
-            weights = weights*torch.exp(eta_weights*group_loss.detach())
-            weights /= weights.sum()
-
-        # loss = 0
-        loss = group_loss*weights
-        # print(loss.shape)
-        loss = loss.sum()
-        # print(loss.shape)
-        # loss = torch.max(group_loss) #DRO get maximum
 
         ### metrics
         if metrics_dic is not None:
-            metric_eval_dic = {}
             for key in metrics_dic.keys():
-
                 metric = to_np(metrics_dic[key](logits, utility))
                 output[key].update(np.array([metric]))
-                metric = np.sum(metric[..., np.newaxis] * to_np(group), axis=0)  # size batch x groups -> size groups
-                metric_eval_dic[key] = metric / to_np(torch.max(ns_groups, torch.ones_like(ns_groups)))
-
-        #save groups
-        for g in range(ngroups):
-            output['criterion_group'][g].update(val=np.array([to_np(group_loss[g])]),mass=ns_groups[g])
-            if metrics_dic is not None:
-                for key in metrics_dic.keys():
-                    output[key+'_group'][g].update(val=np.array([metric_eval_dic[key][g]]),mass=ns_groups[g])
 
         if reg_dic is not None:  #if we have regularizations
             for tag in reg_dic.keys(): #compute each regularization
@@ -799,7 +776,6 @@ def  groupDRO_epoch_training(dataloader, classifier_network, criterions, weights
         if train_type :
 
             #classifier backpropagation
-            # print(loss.shape)
             loss.backward()
             optimizer.step()
 
@@ -812,42 +788,144 @@ def  groupDRO_epoch_training(dataloader, classifier_network, criterions, weights
 
     ################ Final Epoch performance ######################################
     for key in output.keys(): #return only means
-        if 'group' in key:
-            for i in range(len(output[key])):
-                output[key][i] = output[key][i].mean
-        else:
-            output[key] = output[key].mean
-    output['weights'] = to_np(weights)
+        output[key] = output[key].mean
+
+    output['samples_ix'] = samples_ix
+    output['samples_loss'] = samples_loss
+    output['samples_acc'] = samples_acc
 
     return output
 
-def groupDRO_trainer(train_dataloader, val_dataloader, optimizer,
+
+    #
+    # '''
+    # This function train or evaluates an epoch TODO:!
+    # #inputs:
+    # dataloader, optimizer, classifier_network
+    # criterions: function that provides a base_loss
+    # train_type: if train performs backprop y otherwise only evaluates
+    #
+    # '''
+    #
+    # ###    INITIALIZE MEAN OBJECTS  #######
+    #
+    # ngroup = weights.shape[0]
+    #
+    # #loss summary lists
+    # output = {}
+    # output['criterion'] = TravellingMean()
+    # output['criterion_group'] = [TravellingMean() for _ in range(ngroup)]
+    # output['loss'] = TravellingMean()
+    #
+    # if metrics_dic is not None: #additional metrics
+    #     for key in metrics_dic.keys():
+    #         output[key] = TravellingMean()
+    #         output[key+'_group'] = [TravellingMean() for _ in range(ngroup)]
+    #
+    # if reg_dic is not None:
+    #     for key in reg_dic.keys():
+    #         output[key] = TravellingMean()
+    #
+    # if train_type:
+    #     classifier_network = classifier_network.train()
+    # else:
+    #     classifier_network = classifier_network.eval()
+    #
+    # for i_batch, sample_batch in enumerate(dataloader):
+    #     x, utility, group = sample_batch
+    #     x = x.to(DEVICE)
+    #     utility = utility.to(DEVICE)  # batch x nutility
+    #     group = group.int()
+    #     group = group.to(DEVICE)  # batch x 2
+    #
+    #     # zero the parameter gradients
+    #     optimizer.zero_grad()
+    #
+    #     # get output and losses
+    #     logits = classifier_network(x)
+    #
+    #     mass = utility.shape[0]  # number samples batch
+    #
+    #     #loss
+    #     base_loss = criterions(logits, utility)
+    #     output['criterion'].update(val=to_np(base_loss), mass=mass)  # base loss
+    #
+    #     ### metrics
+    #     if metrics_dic is not None:
+    #         metric_eval_dic = {}
+    #         for key in metrics_dic.keys():
+    #             metric_eval_dic[key] = metrics_dic[key](logits, utility)
+    #             output[key].update(np.array([to_np(metric_eval_dic[key])]))
+    #
+    #     loss = 0
+    #     for i in range(base_loss.shape[0]):
+    #         # print(group[i])
+    #         output['criterion_group'][group[i]].update(val=np.array([to_np(base_loss[i])]),mass=1)
+    #         loss += base_loss[i]*weights[group[i]]
+    #
+    #         if metrics_dic is not None:
+    #             for key in metrics_dic.keys():
+    #                 output[key+'_group'][group[i]].update(val=np.array([to_np(metric_eval_dic[key][i])]),mass=1)
+    #
+    #     loss = loss/mass
+    #
+    #     if reg_dic is not None:  #if we have regularizations
+    #         for tag in reg_dic.keys(): #compute each regularization
+    #             reg = reg_dic[tag]
+    #             loss_r = reg.forward(classifier_network) #we assume they are a function only of the network parameters
+    #
+    #             if reg_weights is None:
+    #                 loss += loss_r
+    #             else:
+    #                 loss += reg_weights[tag] * loss_r
+    #
+    #             ## Update regularization
+    #             output[tag].update(np.array([to_np(loss_r)]))
+    #
+    #     output['loss'].update(val=to_np(loss), mass=mass)  # dro loss!
+    #
+    #     if train_type :
+    #
+    #         #classifier backpropagation
+    #         loss.backward()
+    #         optimizer.step()
+    #
+    # ################ Final Epoch performance ######################################
+    # for key in output.keys(): #return only means
+    #     if 'group' in key:
+    #         for i in range(len(output[key])):
+    #             output[key][i] = output[key][i].mean
+    #     else:
+    #         output[key] = output[key].mean
+    #
+    # return output
+
+
+
+def srm_trainer(train_dataloader, val_dataloader, optimizer,
                     classifier_network, criterion, config, eval_dataloader=None,
                     metrics_dic=None, metric_stopper='loss',
-                    reg_dic=None, reg_weights=None, epoch_training=groupDRO_epoch_training,
-                     epoch_warmup=30,scheduler=None):
-
-    group_prior = config.train_mode_params['group_prior']
+                    reg_dic=None, reg_weights=None, epoch_training=srm_epoch_training,
+                    epoch_warmup=30,scheduler=None):
 
     learning_rate_all = np.zeros([config.EPOCHS+1])
-    ngroups = group_prior.shape[0]
 
     history_tags = ['loss',
                     'criterion',
-                    'criterion_group',
-                    'constrain']
+                    'constrain',
+                    'constrain_nfr']
 
     history = {}
     history['loss_train'] = []
     history['loss_val'] = []
     history['criterion_train'] = []
     history['criterion_val'] = []
-    history['constrain_train'] = []
-    history['constrain_val'] = []
+    history['constrain_train'] = [] #constrain train
+    history['constrain_val'] = [] #constrain val
+    history['constrain_nfr_train'] = [] #negative flip rate train
+    history['constrain_nfr_val'] = [] #negative flip rate val
 
-    history['criterion_group_train'] = []
-    history['criterion_group_val'] = []
-    history['weights_group'] = []
+    # history['lambda_group'] = []
 
     if reg_dic is not None:
         for reg in reg_dic.keys():
@@ -859,11 +937,7 @@ def groupDRO_trainer(train_dataloader, val_dataloader, optimizer,
         for metric in metrics_dic.keys():
             history[metric + '_train'] = []
             history[metric + '_val'] = []
-            history[metric + '_group_train'] = []
-            history[metric + '_group_val'] = []
-
             history_tags.append(metric)
-            history_tags.append(metric + '_group')
 
         if metric_stopper not in metrics_dic.keys():
             metric_stopper = 'loss'
@@ -871,91 +945,40 @@ def groupDRO_trainer(train_dataloader, val_dataloader, optimizer,
     if eval_dataloader is not None:
         evaluation_list = []
 
-    ## Add constrain for metric stopper
-    if metric_stopper in metrics_dic.keys():
-        history['constrain_' + metric_stopper + '_train'] = []
-        history['constrain_' + metric_stopper + '_val'] = []
-        history_tags.append('constrain_' + metric_stopper)
-    else:
-        metric_stopper = 'criterion'
-        print('Metric stopper set to : ',metric_stopper)
-
-
-    # stopper train and validation
-    # metric_stopper_train = metric_stopper + '_train'
-    # metric_stopper_val = metric_stopper + '_val'
-
-
-    stop = False
+    stop_val = False
     epoch = 0
-    epoch_best = 0
-
-    decay_patience = 0
-
-
-    # prior = config.train_mode_params['group_prior']
-    weights = config.train_mode_params['weights_init'] + 0
-    weights = weights / np.sum(weights)
-
-
-
-    # weight_list, lam_list, cost_list
-    # lr_penalty = config.lr_penalty + 0
-
 
     if config.scheduler == 'OneCycleLR':
         scheduler_batch = scheduler
         print('scheduler batch :', scheduler_batch)
     else:
         scheduler_batch = None
+
     print('train num_max_batch : ',config.num_max_batch)
-    while ((not stop) | (epoch < epoch_warmup)) & (epoch <= config.EPOCHS):
+    while ((not stop_val) | (epoch < epoch_warmup)) & (epoch <= config.EPOCHS):
 
         # save learning rate
         learning_rate_all[epoch] = optimizer.param_groups[0]['lr'] + 0
 
-        # weights = weights / np.sum(weights)
-
-        history['weights_group'].append(weights)
-        # history['lambda_group'].append(lambda_weights)
-
-        # weights = weights
-        weights = torch.from_numpy(weights)
-        weights = weights.to(config.DEVICE)
-        output_train = epoch_training(train_dataloader, classifier_network, criterion, weights,
-                                      optimizer, config.DEVICE, eta_weights = config.train_mode_params['lr_penalty'],
-                                      metrics_dic=metrics_dic,
+        output_train = epoch_training(train_dataloader, classifier_network, criterion,
+                                      optimizer, config.DEVICE, metrics_dic=metrics_dic,
                                       train_type=True, reg_dic=reg_dic, reg_weights=reg_weights,
                                       scheduler=scheduler_batch, num_max_batch = config.num_max_batch)
 
-        output_val = epoch_training(val_dataloader, classifier_network, criterion, weights,
+        output_val = epoch_training(val_dataloader, classifier_network, criterion,
                                     optimizer, config.DEVICE, metrics_dic=metrics_dic,
                                     train_type=False, reg_dic=reg_dic, reg_weights=reg_weights)
 
-        weights = output_train['weights']
         ## history update
         history['loss_train'].append(output_train['loss'])
         history['loss_val'].append(output_val['loss'])
         history['criterion_train'].append(output_train['criterion'])
         history['criterion_val'].append(output_val['criterion'])
 
-        for group in range(ngroups):
-            if group == 0:
-                history['criterion_group_train'].append(np.zeros([ngroups]))
-                history['criterion_group_val'].append(np.zeros([ngroups]))
-            history['criterion_group_train'][-1][group] = output_train['criterion_group'][group]
-            history['criterion_group_val'][-1][group] = output_val['criterion_group'][group]
-
-            if metrics_dic is not None:
-                for metric in metrics_dic.keys():
-                    if group == 0:
-                        history[metric + '_group_train'].append(np.zeros([ngroups]))
-                        history[metric + '_group_val'].append(np.zeros([ngroups]))
-                        history[metric + '_train'].append(output_train[metric])
-                        history[metric + '_val'].append(output_val[metric])
-
-                    history[metric + '_group_train'][-1][group] = output_train[metric + '_group'][group]
-                    history[metric + '_group_val'][-1][group] = output_val[metric + '_group'][group]
+        if metrics_dic is not None:
+            for metric in metrics_dic.keys():
+                history[metric + '_train'].append(output_train[metric])
+                history[metric + '_val'].append(output_val[metric])
 
         if reg_dic is not None:
             for reg in reg_dic.keys():
@@ -967,114 +990,95 @@ def groupDRO_trainer(train_dataloader, val_dataloader, optimizer,
                           classifier_network,
                           optimizer)
 
-        ## Update - group constrain losses
-        constrain_loss_train = history['criterion_group_train'][-1] - config.train_mode_params['group_constrain']
-        constrain_loss_val = history['criterion_group_val'][-1] - config.train_mode_params['group_constrain']
+        ## Update
+        ### Compute constrains  ( mean{i}(maximum(new loss_i - previous loss_i,0)) )
 
-        if config.train_mode_params['lr_penalty']>0: #lr_penalty = 0 indicates fix weights
-            # aux = (1-config.train_mode_params['min_weight']*constrain_loss_train.shape[0])*np.max(constrain_loss_train)
-            aux = np.max(constrain_loss_train)
-        else:
-            aux = np.sum(weights*constrain_loss_train)
-        history['constrain_train'].append(aux)
+        #val
+        val_sample_reference_losses = np.array(output_val['samples_loss']) -\
+                            val_dataloader.dataset.previous_loss[np.array(output_val['samples_ix']).astype('int')]
+        constrain_loss_val = np.mean(np.maximum(val_sample_reference_losses,0))
+        history['constrain_val'].append(constrain_loss_val)
 
-        if config.train_mode_params['lr_penalty']>0:
-            # aux = (1 - config.train_mode_params['min_weight'] * constrain_loss_val.shape[0]) * np.max(
-            #     constrain_loss_val)
-            aux = np.max(constrain_loss_val)
-        else:
-            aux = np.sum(weights * constrain_loss_val)
-        history['constrain_val'].append(aux)
+        #train
+        train_sample_reference_losses = np.array(output_train['samples_loss']) -\
+                              train_dataloader.dataset.previous_loss[np.array(output_train['samples_ix']).astype('int')]
+        constrain_loss_train = np.mean(np.maximum(train_sample_reference_losses, 0))
+        history['constrain_train'].append(constrain_loss_train)
 
-        print('DEBUG TRAIN,VAL', constrain_loss_train, constrain_loss_val)
-        print('DEBUG TRAIN,VAL',  history['constrain_train'][-1], history['constrain_val'][-1])
+        ### Compute NFR (1 - mean_{i}(previous_acc_i == acc_i | previous_acc_i == 1)
 
+        #val
+        val_sample_NFR = np.array(np.array(output_val['samples_acc']) == val_dataloader.dataset.previous_acc[np.array(output_val['samples_ix']).astype('int')]).astype('int')
+        val_sample_NFR = 1 - np.mean(val_sample_NFR[val_dataloader.dataset.previous_acc[np.array(output_val['samples_ix']).astype('int')] == 1])
 
-        ## metric for evaluation -> stopping criteria based on generalization to a metric constrain
-        constrain_criteria_tag = 'constrain_'
-        if metric_stopper != 'criterion':
-            constrain_metric_train = history[metric_stopper + '_group_train'][-1] - config.train_mode_params['group_constrain_' + metric_stopper]
-            constrain_metric_val = history[metric_stopper + '_group_val'][-1] - config.train_mode_params['group_constrain_' + metric_stopper]
+        # train
+        train_sample_NFR = np.array(np.array(output_train['samples_acc']) == train_dataloader.dataset.previous_acc[np.array(output_train['samples_ix']).astype('int')]).astype('int')
+        train_sample_NFR = 1 - np.mean(train_sample_NFR[train_dataloader.dataset.previous_acc[np.array(output_train['samples_ix']).astype('int')] == 1])
 
-            if metric_stopper in ['acc','softacc']:
-                constrain_metric_train = -1 * constrain_metric_train
-                constrain_metric_val = -1 * constrain_metric_val
+        history['constrain_nfr_train'].append(train_sample_NFR)
+        history['constrain_nfr_val'].append(val_sample_NFR)
 
-            constrain_criteria_tag = constrain_criteria_tag + metric_stopper
-
-            #worst case with the constrain of min weight
-            if config.train_mode_params['lr_penalty']>0:
-                # aux = (1 - config.train_mode_params['min_weight'] * constrain_metric_train.shape[0]) * np.max(constrain_metric_train)
-                aux = np.max(constrain_metric_train)
-            else:
-                aux = np.sum(weights * constrain_metric_train)
-            history['constrain_' + metric_stopper + '_train'].append(aux)
-
-            if config.train_mode_params['lr_penalty'] > 0:
-                # aux = (1 - config.train_mode_params['min_weight'] * constrain_metric_val.shape[0]) * np.max(constrain_metric_val)
-                aux = np.max(constrain_metric_val)
-            else:
-                aux = np.sum(weights * constrain_metric_val)
-            history['constrain_' + metric_stopper + '_val'].append(aux)
-
-            print('DEBUG TRAIN,VAL', constrain_metric_train, constrain_metric_val)
-            print('DEBUG TRAIN,VAL', history['constrain_' + metric_stopper + '_train'][-1], history['constrain_' + metric_stopper + '_val'][-1])
-
-        #     ## second criteria
-        #     second_criteria_val = np.mean(constrain_metric_val)
-        #     second_criteria_train =np.mean(constrain_metric_train)
-        #
-        # else:
-        #     ## second criteria
-        #     second_criteria_val = np.mean(constrain_loss_val)
-        #     second_criteria_train = np.mean(constrain_loss_train)
-
-        ## for train we will consider loss constrain
-        constrain_train = history['constrain_train'][-1]
+        # constrain_train = history['constrain_train'][-1]
         # constrain_val = history['constrain_val'][-1]
 
-        ## for val we will consider generalization to the metric constrain
-        # constrain_train = history[constrain_criteria_tag+'_train'][-1]
-        constrain_val = history[constrain_criteria_tag+'_val'][-1]
+        constrain_train = history['constrain_nfr_train'][-1]
+        constrain_val = history['constrain_nfr_val'][-1]
 
+        ## loss for evaluation -> stopping criteria
+        if metric_stopper in ['acc', 'softacc']:
+            loss_val = 1 - history[metric_stopper +'_val'][-1] + 0
+            loss_train = 1 - history[metric_stopper +'_train'][-1] + 0
+
+        else:
+            loss_val = history[metric_stopper +'_val'][-1] + 0
+            loss_train = history[metric_stopper +'_train'][-1] + 0
+
+
+        ## We save if :  we improve NFR or NFR remains the same and we improve accuracy (or the corresponding metric_stopper).
 
         if (epoch == 0):
 
             # init stopper penalty -> train
             stopper_train = early_stopping(config.patience, 0, constrain_train) ## constrain is the condition to check
-            epoch_best_train = epoch + 1
-            model_params_save(config.basedir + config.model_name + '/' + config.best_model_train, classifier_network,
-                              optimizer)
+            epoch_best_train = epoch
+            model_params_save(config.basedir + config.model_name + '/' + config.best_model_train, classifier_network, optimizer)
+            best_loss_train = loss_train + 0
 
             # init stopper penalty -> val
-            stopper = early_stopping(config.patience, 0, constrain_val) ## constrain is the condition to check
-            epoch_best = epoch + 1
+            stopper_val = early_stopping(config.patience, 0, constrain_val) ## constrain is the condition to check
+            epoch_best_val = epoch
             model_params_save(config.basedir + config.model_name + '/' + config.best_model,
                               classifier_network,
                               optimizer)
+            best_loss_val = loss_val + 0
+
         else:
+
+            #save best val
+            min_th = 1e-8
+            save_val, stop_val = stopper_val.evaluate(constrain_val)
+            delta_constrain = np.abs(stopper_val.best_loss - constrain_val)
+            if (save_val | ((delta_constrain <= min_th) & (best_loss_val > loss_val))): #save if constrain is improved or if constrain is preserved and stopper loss is improved
+                epoch_best_val = epoch
+                print('saving best model, epoch: ', epoch_best_val)
+                model_params_save(config.basedir + config.model_name + '/' + config.best_model,
+                                  classifier_network,
+                                  optimizer)
+                best_loss_val = loss_val + 0
 
             #save best train
             save_train, stop_train = stopper_train.evaluate(constrain_train)
-            if (save_train):
-                epoch_best_train = epoch + 1
+            delta_constrain = np.abs(stopper_train.best_loss - constrain_train)
+
+            if (save_train | ((delta_constrain <= min_th) & (best_loss_train > loss_train))):
+                epoch_best_train = epoch
                 print('saving best train model, epoch: ', epoch_best_train)
                 model_params_save(config.basedir + config.model_name + '/' + config.best_model_train,
                                   classifier_network,
                                   optimizer)
-
-            #save best val
-            save, stop = stopper.evaluate(constrain_val)
-            if save :
-                epoch_best = epoch + 1
-                print('saving best model, epoch: ', epoch_best)
-                model_params_save(config.basedir + config.model_name + '/' + config.best_model,
-                                  classifier_network,
-                                  optimizer)
+                best_loss_train = loss_train + 0
 
 
-
-        ##### print
         if ((epoch % config.n_print == config.n_print - 1) & (epoch >= 1)) | (epoch == 0):
             string_print = 'Epoch: ' + str(epoch) + '; lr: ' + str(np.round(optimizer.param_groups[0]['lr'],5))
             for tag in history_tags:
@@ -1082,29 +1086,23 @@ def groupDRO_trainer(train_dataloader, val_dataloader, optimizer,
                     np.round(history[tag + '_train'][epoch], 3)) + \
                                ', ' + str(np.round(history[tag + '_val'][epoch], 3))
 
-            string_print = string_print + '|stop_c : ' + str(stopper.counter) + '; best_train : ' +\
+            string_print = string_print + '|stop_c : ' + str(stopper_val.counter) + '; best_train : ' +\
                            str(np.round(stopper_train.best_loss,4)) + ', epoch' + str(epoch_best_train)
-            print(string_print + '; best_val : ' + str(np.round(stopper.best_loss,4)) + ', epoch' + str(epoch_best) )
+            print(string_print + '; best_val : ' + str(np.round(stopper_val.best_loss,4)) + ', epoch' + str(epoch_best_val) )
 
             print()
             print(' constrain_loss_train : ' , constrain_loss_train)
             print(' constrain_loss_val : ', constrain_loss_val)
-            if metric_stopper != 'criterion':
-                print(' constrain_'+metric_stopper+ '_train : ', constrain_metric_train)
-                print(' constrain_'+metric_stopper+ '_val : ', constrain_metric_val)
-            print(' weights : ' , np.round(weights,4))
-
-            # if config.dp:
-            #     epsilon, best_alpha = optimizer.privacy_engine.get_privacy_spent(config.delta)
-            #     print('DP epsilon: ', np.round(epsilon,2))
-
+            print(' nfr_train : ', history['constrain_nfr_train'][-1])
+            print(' nfr_val : ', history['constrain_nfr_val'][-1])
 
         # OPTIONAL: EVALUATION AND SAVING EVERY  'config.eval_every_epochs' or in the last epoch using best training model
         save_eval_flag = (eval_dataloader is not None) & \
                          (((epoch % config.eval_every_epochs == 0) & \
-                           (config.eval_every_epochs > 0)) | stop | (epoch == config.EPOCHS))
+                           (config.eval_every_epochs > 0)) | stop_train | (epoch == config.EPOCHS))
         if save_eval_flag:
             print('**Saving Evaluation on epoch ', epoch)
+
             ## Evaluate:
             model_params_load(config.basedir + config.model_name + '/'+ config.best_model_train,
                               classifier_network,
@@ -1126,9 +1124,32 @@ def groupDRO_trainer(train_dataloader, val_dataloader, optimizer,
                               optimizer,
                               config.DEVICE)
 
-        # if config.train_mode_params['lr_penalty']>0: # else we just keep the initial weights
-            # weights = output_train['weights']
-            # print(' last weights : ', np.round(weights, 4))
+        if config.train_mode_params['lr_penalty']>0: # else we just keep the initial weights
+
+            weights = to_np(train_dataloader.dataset.W_torch[output_train['samples_ix']]).flatten()
+            weights_sum = np.sum(weights)
+            print(weights.shape)
+            weight_list, cost_list = pga_weights(train_sample_reference_losses,
+                                                    weights,
+                                                    s=weights_sum,
+                                                    e=config.train_mode_params['min_weight'],
+                                                    eta=config.train_mode_params['lr_penalty'],
+                                                    iterations=2000,
+                                                    cost_delta_improve=config.train_mode_params['cost_delta_improve'],
+                                                    max_weight_change=config.train_mode_params['max_weight_change'])
+
+            print('old wloss', np.mean(weights * train_sample_reference_losses))
+            weights = weight_list[-1]
+            if np.min(weights) < 0:
+                print(' weights < 0 :', weights)
+                weights = np.maximum(weights, 0)
+            if np.abs(np.sum(weights) - weights_sum) > 1e-5:
+                print(' weights == :', np.sum(weights))
+                weights = weights_sum * weights / np.sum(weights)
+
+            print('new wloss', np.mean(weights * train_sample_reference_losses)) # should be larger
+            train_dataloader.dataset.W_torch[output_train['samples_ix']] = torch.from_numpy(weights[:, np.newaxis])
+
 
         if (scheduler is not None) &  (config.scheduler in ['CosineAnnealingLR','MultiStepLR']):
             print('scheduler step')
@@ -1140,17 +1161,15 @@ def groupDRO_trainer(train_dataloader, val_dataloader, optimizer,
 
         if (scheduler is not None) & (config.scheduler in ['ManualLRDecayNWReset']):
             print('scheduler step ')
-            scheduler.step(constrain_train,
-                           constrain_val)
+            scheduler.step(history['constrain_train'][-1], history['constrain_val'][-1])
 
 
         epoch += 1
         print()
 
-
     # -------- END TRAINING --------#
 
-    # load best network
+    # load best validation network
     print('Training Ended, loading best model : ', config.basedir + config.model_name + '/' + config.best_model)
     model_params_load(config.basedir + config.model_name + '/' + config.best_model, classifier_network, optimizer,
                       config.DEVICE)
@@ -1164,13 +1183,10 @@ def groupDRO_trainer(train_dataloader, val_dataloader, optimizer,
         columns = ['ypred_' + str(i) for i in range(utility_pred_l.shape[1])]
         pd_eval = pd.DataFrame(data=utility_pred_l, columns=columns)
         pd_eval['ygt'] = utility_gt_l
-        pd_eval['epochs'] = epoch_best + 1
+        pd_eval['epochs'] = epoch_best_val
         evaluation_list.append(pd_eval)
 
         return history,evaluation_list
     else:
         return history
-
-
-
 

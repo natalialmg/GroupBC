@@ -4,7 +4,7 @@ import argparse
 from general.utils import save_json,model_params_load,model_params_save
 from general.misc import mkdir
 from models.training import ManualLRDecayPlateau,ManualLRDecayNWReset,vanilla_trainer,epoch_vanilla_training,fast_epoch_evaluation
-from models.robust_training import grm_trainer,groupDRO_trainer
+from models.robust_training import grm_trainer,srm_trainer
 import torch
 import numpy as np
 import pandas as pd
@@ -256,7 +256,6 @@ class Model():
             self.scheduler = ManualLRDecayPlateau(self.config.scheduler_params['lr_decay'],
                                                   self.config.scheduler_params['patience'],
                                                   self.optimizer)
-
         elif self.config.scheduler == 'ManualLRDecayNWReset' :
             if 'lr_decay' not in self.config.scheduler_params.keys():
                 self.config.scheduler_params['lr_decay'] = 0.95
@@ -280,32 +279,14 @@ class Model():
 
         print('scheduler :: ', self.scheduler )
 
-        ## DP-SGD
-        # if self.config.dp :
-        #     inspector = DPModelInspector()
-        #     if inspector.validate(self.classifier_network):
-        #
-        #         privacy_engine = PrivacyEngine(self.classifier_network,
-        #             sample_rate=self.config.sample_rate,
-        #             epochs=self.config.EPOCHS,
-        #             target_epsilon=self.config.epsilon,
-        #             target_delta=self.config.delta,
-        #             max_grad_norm=self.config.max_grad_norm)
-        #
-        #         privacy_engine.attach(self.optimizer)
-        #         print("Using sigma=",privacy_engine.noise_multiplier, ' and C=' ,self.config.max_grad_norm)
-        #     else:
-        #         print('DP not possible due to model incompatibility')
-        #         return
-
-        if train_modality == 'vanilla':
+        if train_modality == 'erm':
             output = vanilla_trainer(self.train_dataloader, self.val_dataloader,
                            self.optimizer, self.classifier_network, self.criterion, self.config,
                             metrics_dic = self.metric_dic, eval_dataloader=eval_dataloader,
                                                metric_stopper = metric_stopper, reg_dic=None, reg_weights=None,
                             epoch_training = epoch_training,epoch_warmup=epoch_warmup, scheduler = self.scheduler)
 
-        elif train_modality in ['group_minmax', 'group_constrain', 'group_minmax_erm', 'group_balance']:
+        elif train_modality in ['gmmf', 'grm', 'gb']: #gmmf : group minimax, grm: group reference model, gb: group balance
             print('Group trainer')
             output = grm_trainer(self.train_dataloader, self.val_dataloader,
                                      self.optimizer, self.classifier_network, self.criterion, self.config,
@@ -314,33 +295,14 @@ class Model():
                                      metric_stopper=metric_stopper, reg_dic=None, reg_weights=None,
                                      epoch_warmup=epoch_warmup, scheduler = self.scheduler)
 
-        elif train_modality in ['group_dro']:
-            print('Group trainer')
-            output = groupDRO_trainer(self.train_dataloader, self.val_dataloader,
-                                     self.optimizer, self.classifier_network, self.criterion, self.config,
-                                     metrics_dic=self.metric_dic,
-                                     eval_dataloader=eval_dataloader,
-                                     metric_stopper=metric_stopper, reg_dic=None, reg_weights=None,
-                                     epoch_warmup=epoch_warmup, scheduler = self.scheduler)
-
-        #
-        # elif train_modality == 'group_dro':
-        #     output = groupDRO_trainer(self.train_dataloader, self.val_dataloader,
-        #                              self.optimizer, self.classifier_network, self.criterion, self.config,
-        #                              metrics_dic=self.metric_dic, val_stopper=val_stopper,
-        #                              eval_dataloader=eval_dataloader,
-        #                              metric_stopper=metric_stopper, reg_dic=None, reg_weights=None,
-        #                              epoch_warmup=epoch_warmup, scheduler = self.scheduler)
-        #
-        # elif train_modality == 'sample_constrain':
-        #     output = penalty_trainer(self.train_dataloader, self.val_dataloader,
-        #                     self.optimizer, self.classifier_network, self.criterion, self.config,
-        #                     metrics_dic=self.metric_dic, val_stopper=val_stopper,
-        #                     eval_dataloader=eval_dataloader,
-        #                     metric_stopper=metric_stopper, reg_dic=None, reg_weights=None,
-        #                     epoch_warmup=epoch_warmup, scheduler = self.scheduler)
-
-
+        elif train_modality == 'srm': #sample reference model
+            output = srm_trainer(self.train_dataloader, self.val_dataloader,
+                                self.optimizer, self.classifier_network, self.criterion, self.config,
+                                metrics_dic=self.metric_dic,
+                                eval_dataloader=eval_dataloader,
+                                metric_stopper=metric_stopper, reg_dic=None, reg_weights=None,
+                                epoch_warmup=epoch_warmup, scheduler = self.scheduler)
+            
         if eval_dataloader is None:
             self.history = output
         else:
