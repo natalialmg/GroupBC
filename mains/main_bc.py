@@ -19,7 +19,9 @@ import numpy as np
 cparser = argparse.ArgumentParser()
 
 ## General specs
+cparser.add_argument('--addclass', action='store', default=0, type=int, help='split dataset, int > 0')
 cparser.add_argument('--previous_model', action='store', default= '', type=str, help='previous model directory path')
+
 cparser.add_argument('--gpu', action='store', default=0, type=int,help='gpu')
 cparser.add_argument('--model_name', action='store', default= 'vanilla_resnet18', type=str, help='model_name')
 cparser.add_argument('--basedir', action='store', default= '/data/natalia/models/', type=str,help='basedir for internal model save')
@@ -27,7 +29,6 @@ cparser.add_argument('--seed', action='store', default=42, type=int, help='rando
 cparser.add_argument('--seed_dataset', action='store', default=42, type=int, help='randomizer seed dataset')
 cparser.add_argument('--split', action='store', default=1, type=int, help='split dataset, int > 0')
 cparser.add_argument('--loadmodel', action='store', default= '', type=str, help='model_dir')
-cparser.add_argument('--dataset_reduction', action='store', default=1.0, type=float, help='fraction of training dataset to use ')
 
 ## Dataset/ Dataloader
 cparser.add_argument('--dataset', action='store', default='cifar100_coarse', type=str,help='dataset')
@@ -184,14 +185,23 @@ if __name__== '__main__':
     config_json = load_json(cparser.previous_model + '/config.json')
     config_json['GPU_ID'] = cparser.gpu
     config = Config(config_dic=config_json)
-
+    print(config)
     from opacus.utils import module_modification
 
     classifier_network = get_resnet(config.n_utility, pretrained=cparser.pretrained,
                                     typenet=cparser.network, convert_conv1=convert_conv1)
-    if not config.batchnorm:
+
+    if config.network_params['normlayer'] == 'groupnorm':
+        print('BN to GN')
+        classifier_network = module_modification.convert_batchnorm_modules(classifier_network)
+    elif config.network_params['normlayer']  == 'identity':
+        print('BN to identity')
         classifier_network = module_modification.convert_batchnorm_modules(classifier_network,
                                                                            module_modification.nullify_batchnorm_modules)
+    elif config.network_params['normlayer'] == 'instance':
+        print('BN to instance norm')
+        classifier_network = module_modification.convert_batchnorm_modules(classifier_network,
+                                                                           module_modification._batchnorm_to_instancenorm)
 
     classifier_network = classifier_network.to(config.DEVICE)
     # load_model = 'weights_best_train.pth'
@@ -240,7 +250,7 @@ if __name__== '__main__':
 
     check1 = np.sum(np.abs(pd_all['sample_index'].values - pd_eval['sample_index'].values))
     check2 = np.sum(np.abs(pd_all['utility'].values - pd_eval['ygt'].values))
-    print('Sanity check : ',check1,check2)
+    print('Sanity check (true,true) : ',check1 == 0,check2 == 0)
     if (check1 != 0) | (check2 != 0):
         print('Dataset compatibility error ---> ending')
         sys.exit()
@@ -314,8 +324,18 @@ if __name__== '__main__':
         group_tag = group_tag_dataset
         group_prior = pd_train_split.groupby(group_tag)['utility'].count().values / len(pd_train_split)
 
-        group_constrain = pd_all.loc[pd_all['dataset_previous'] == 'train'].groupby(group_tag)['prevmodel_loss'].mean().values
-        group_constrain_acc = pd_test.groupby(group_tag)['prevmodel_acc'].mean().values
+        group_constrain = pd_all.loc[pd_all['dataset_previous'] == 'validation'].groupby(group_tag)['prevmodel_loss'].mean().values
+        group_constrain_acc = pd_all.loc[pd_all['dataset_previous'] == 'validation'].groupby(group_tag)['prevmodel_acc'].mean().values
+
+        if cparser.train_mode == 'gmmf':
+            group_constrain = 0*group_constrain
+            group_constrain_acc = 0*group_constrain_acc + 1
+        #group_constrain_acc = pd_test.groupby(group_tag)['prevmodel_acc'].mean().values
+
+        # print(pd_all.loc[pd_all['dataset_previous'] == 'val'].groupby(group_tag)['prevmodel_loss'].mean())
+
+        # print(group_constrain)
+        # print(group_constrain_acc)
 
         train_mode_params['group_constrain'] = group_constrain
         train_mode_params['group_constrain_acc'] = group_constrain_acc
@@ -350,7 +370,7 @@ if __name__== '__main__':
         group_tag = None
         group2cat = False
 
-
+    weights_tag = None
     if cparser.train_mode == 'srm':
         weights_tag = 'weights'
         group_tag = 'sample_ix'
@@ -369,18 +389,99 @@ if __name__== '__main__':
 
     config = Config(n_utility=nutility,
                     basedir=cparser.basedir, model_name=cparser.model_name, seed=cparser.seed,
-                    BATCH_SIZE=cparser.batch, type_loss=cparser.loss, type_metric=['acc'],
-                    GPU_ID=cparser.gpu,
+                    BATCH_SIZE=cparser.batch, type_loss = cparser.loss, type_metric = ['acc'],
+                    GPU_ID = cparser.gpu,
                     network_params=network_params,
                     optimizer_params=optimizer_params,
                     scheduler=cparser.scheduler,
                     scheduler_params=scheduler_params,
                     patience=cparser.patience, num_max_batch=num_max_batch,
-                    EPOCHS=cparser.epochs, epochs_warmup=cparser.epochs_warmup,
-                    train_mode=cparser.train_mode, train_mode_params=train_mode_params,
+                    EPOCHS=cparser.epochs,epochs_warmup=cparser.epochs_warmup,
+                    train_mode = cparser.train_mode,train_mode_params=train_mode_params,
                     regression=cparser.regression
                     )
 
     config.save_json()
 
+
+    train_dataloader = get_dataloaders_image(pd_train_split, file_tag=file_tag, utility_tag='utility',
+                                             group_tag=group_tag, weights_tag=weights_tag,
+                                             augmentations=train_transform, shuffle=True,
+                                             num_workers=8, batch_size=config.BATCH_SIZE, group2cat=group2cat,
+                                             sampler_on=sampler_on)
+
+    val_dataloader = get_dataloaders_image(pd_val_split, file_tag=file_tag, utility_tag='utility',
+                                           group_tag=group_tag, weights_tag=weights_tag,
+                                           augmentations=test_transform, shuffle=False,
+                                           num_workers=8, batch_size=config.BATCH_SIZE, group2cat=group2cat)
+
+
+    ## Include previous prediction per sample on a dataset attribute (needed only for SRM)
+    if cparser.train_mode == 'srm':
+        ###
+        train_dataloader.dataset.previous_loss = pd_train_split['prevmodel_loss'].values
+        val_dataloader.dataset.previous_loss = pd_val_split['prevmodel_loss'].values
+
+        train_dataloader.dataset.previous_acc = pd_train_split['prevmodel_acc'].values
+        val_dataloader.dataset.previous_acc = pd_val_split['prevmodel_acc'].values
+
+
+    eval_dataloader = get_dataloaders_image(pd_all, file_tag=file_tag, utility_tag='utility',
+                                            group_tag=None if group_tag is None else group_tag_dataset, #here we use the group_dataset
+                                            augmentations=test_transform, shuffle=False,
+                                            num_workers=8, batch_size=config.BATCH_SIZE, group2cat=group2cat)
+
+    #### Model ####
+
+    classifier_network = get_resnet(config.n_utility, pretrained = config.network_params['pretrained'],
+                                    typenet = config.network_params['network'],convert_conv1=convert_conv1)
+
+    if cparser.loadmodel != '':
+        if os.path.exists(cparser.loadmodel):
+            print(' Loading : ',cparser.loadmodel )
+            model_params_load(cparser.loadmodel,classifier_network,None,config.DEVICE)
+
+    if cparser.normlayer == 'groupnorm':
+        print('BN to GN')
+        classifier_network = module_modification.convert_batchnorm_modules(classifier_network)
+    elif cparser.normlayer == 'identity':
+        print('BN to identity')
+        classifier_network = module_modification.convert_batchnorm_modules(classifier_network,
+                                                                           module_modification.nullify_batchnorm_modules)
+    elif cparser.normlayer == 'instance':
+        print('BN to instance norm')
+        classifier_network = module_modification.convert_batchnorm_modules(classifier_network,
+                                                                           module_modification._batchnorm_to_instancenorm)
+
+    ### Trainer ###
+    trainer = Model(config, train_dataloader, val_dataloader, classifier_network)
+
+    ## Train ###
+    history, evaluation_list = trainer.train_model(epochs=config.EPOCHS,
+                                                   epoch_warmup=config.epochs_warmup,
+                                                   eval_dataloader=eval_dataloader,
+                                                   metric_stopper=config.type_metric[0],
+                                                   train_modality = config.train_mode)
+
+    # cast all np arrays in history to list
+    for key in history.keys():
+        history[key] = np.array(history[key]).tolist()
+
+    # save history & evaluation
+    save_json(history, trainer.config.basedir + trainer.config.model_name + '/history.json')
+    print('history file saved on : ', trainer.config.basedir + trainer.config.model_name + '/history.json')
+
+    for i in range(len(evaluation_list)):
+        evaluation_list[i]['dataset'] = pd_all['dataset'].values
+        evaluation_list[i]['sample_index'] = pd_all['sample_index'].values
+        evaluation_list[i]['prevmodel_loss'] = pd_all['prevmodel_loss'].values
+        evaluation_list[i]['prevmodel_acc'] = pd_all['prevmodel_acc'].values
+        evaluation_list[i]['prevmodel_confidence'] = pd_all['prevmodel_confidence'].values
+        evaluation_list[i]['prevmodel_outgt'] = pd_all['prevmodel_outgt'].values
+
+        evaluation_list[i]['group_tag'] = pd_all[group_tag_dataset].values
+
+        evaluation_list[i].to_csv(trainer.config.basedir + trainer.config.model_name + '/eval' + str(i) + '.csv',
+                                  index=0)
+        print('Saving : ', trainer.config.basedir + trainer.config.model_name + '/eval' + str(i) + '.csv')
 

@@ -86,8 +86,6 @@ class ManualLRDecayNWReset(object):
                 print('update best loss nw to ', self.best_loss_nw)
 
 
-
-
 class early_stopping(object):
     def __init__(self, patience, counter, best_loss):
         self.patience = patience #max number of nonimprovements until stop

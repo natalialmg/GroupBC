@@ -1043,6 +1043,7 @@ def srm_trainer(train_dataloader, val_dataloader, optimizer,
             epoch_best_train = epoch
             model_params_save(config.basedir + config.model_name + '/' + config.best_model_train, classifier_network, optimizer)
             best_loss_train = loss_train + 0
+            stop_train = False
 
             # init stopper penalty -> val
             stopper_val = early_stopping(config.patience, 0, constrain_val) ## constrain is the condition to check
@@ -1051,6 +1052,7 @@ def srm_trainer(train_dataloader, val_dataloader, optimizer,
                               classifier_network,
                               optimizer)
             best_loss_val = loss_val + 0
+            stop_val = False
 
         else:
 

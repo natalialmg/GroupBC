@@ -21,40 +21,32 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="model.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/model.py">
+      <file leaf-file-name="robust_training.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/models/robust_training.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="765">
-              <caret line="290" column="76" selection-start-line="290" selection-start-column="76" selection-end-line="290" selection-end-column="76" />
+            <state relative-caret-position="7630">
+              <caret line="1113" column="0" selection-start-line="1113" selection-start-column="0" selection-end-line="1113" selection-end-column="0" />
               <folding>
-                <element signature="e#480#962#0" expanded="false" />
-                <element signature="e#1072#3500#0" expanded="false" />
-                <element signature="e#3217#3260#0" expanded="false" />
-                <element signature="e#3568#3976#0" expanded="false" />
-                <element signature="e#4026#4952#0" expanded="false" />
-                <element signature="e#5065#7974#0" expanded="false" />
-                <element signature="e#5486#5630#0" expanded="false" />
-                <element signature="e#5994#6176#0" expanded="false" />
-                <element signature="e#8320#8803#0" expanded="false" />
-                <element signature="e#8868#9440#0" expanded="false" />
-                <element signature="e#9512#9783#0" expanded="false" />
-                <element signature="e#9858#10539#0" expanded="false" />
-                <element signature="e#10615#11885#0" expanded="false" />
-                <element signature="e#13960#14785#0" expanded="false" />
+                <element signature="e#304#3009#0" expanded="false" />
+                <element signature="e#3184#6838#0" expanded="false" />
+                <element signature="e#7137#11407#0" expanded="false" />
+                <element signature="e#16908#17072#0" expanded="false" />
+                <element signature="e#29255#36340#0" expanded="false" />
+                <element signature="e#32664#32665#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main_bc.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="main_bc.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mains/main_bc.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="633">
-              <caret line="368" column="0" selection-start-line="368" selection-start-column="0" selection-end-line="368" selection-end-column="0" />
+            <state relative-caret-position="377">
+              <caret line="324" column="52" selection-start-line="324" selection-start-column="52" selection-end-line="324" selection-end-column="52" />
               <folding>
-                <element signature="e#4214#5097#0" expanded="false" />
-                <element signature="e#5149#6400#0" expanded="false" />
-                <element signature="e#6443#7813#0" expanded="false" />
+                <element signature="e#4188#5071#0" expanded="false" />
+                <element signature="e#5123#6374#0" expanded="false" />
+                <element signature="e#6417#7787#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -63,8 +55,8 @@
       <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mains/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="81">
-              <caret line="249" column="0" selection-start-line="249" selection-start-column="0" selection-end-line="335" selection-end-column="0" />
+            <state relative-caret-position="799">
+              <caret line="309" column="0" selection-start-line="309" selection-start-column="0" selection-end-line="309" selection-end-column="0" />
               <folding>
                 <element signature="e#4156#5039#0" expanded="false" />
                 <element signature="e#5091#6342#0" expanded="false" />
@@ -76,39 +68,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="robust_training.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/robust_training.py">
+      <file leaf-file-name="read" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/notebook/read">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="103" column="19" selection-start-line="103" selection-start-column="19" selection-end-line="103" selection-end-column="19" />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="bash_mainbc.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/mains/bash_mainbc.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="315">
+              <caret line="21" column="19" selection-start-line="21" selection-start-column="19" selection-end-line="21" selection-end-column="19" />
               <folding>
-                <element signature="e#304#3009#0" expanded="false" />
-                <element signature="e#7137#11407#0" expanded="false" />
-                <element signature="e#16908#17072#0" expanded="false" />
-                <element signature="e#29255#36340#0" expanded="false" />
-                <element signature="e#32664#32665#0" expanded="false" />
-                <element signature="e#36692#50488#0" expanded="false" />
+                <element signature="e#1877#2477#0" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CUB_gmmf_experiments.sh" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/experiments/CUB_gmmf_experiments.sh">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CUB_erm_experiments.sh" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/experiments/CUB_erm_experiments.sh">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" column="348" selection-start-line="2" selection-start-column="348" selection-end-line="2" selection-end-column="348" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -116,26 +93,10 @@
       <file leaf-file-name="bash_main.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mains/bash_main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="420">
-              <caret line="40" column="0" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
+            <state relative-caret-position="2175">
+              <caret line="159" column="0" selection-start-line="159" selection-start-column="0" selection-end-line="159" selection-end-column="0" />
               <folding>
                 <element signature="e#1668#2268#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="training.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/training.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="435">
-              <caret line="156" column="54" selection-start-line="156" selection-start-column="54" selection-end-line="156" selection-end-column="54" />
-              <folding>
-                <element signature="e#223#1059#0" expanded="false" />
-                <element signature="e#1102#3079#0" expanded="false" />
-                <element signature="e#3118#3734#0" expanded="false" />
-                <element signature="e#3835#4926#0" expanded="false" />
-                <element signature="e#5244#7690#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -166,18 +127,19 @@
         <option value="$PROJECT_DIR$/models/learners.py" />
         <option value="$PROJECT_DIR$/general/losses.py" />
         <option value="$PROJECT_DIR$/models/gen_training.py" />
-        <option value="$PROJECT_DIR$/models/training.py" />
         <option value="$PROJECT_DIR$/models/model.py" />
         <option value="$PROJECT_DIR$/mains/main.py" />
-        <option value="$PROJECT_DIR$/models/robust_training.py" />
         <option value="$PROJECT_DIR$/mains/CUB_exp_gmmf.sh" />
         <option value="$PROJECT_DIR$/mains/CUB_gmmf_experiments.sh" />
         <option value="$PROJECT_DIR$/experiments/CUB_gmmf_experiments.sh" />
         <option value="$PROJECT_DIR$/experiments/celebA_erm_experiments.sh" />
-        <option value="$PROJECT_DIR$/experiments/CUB_erm_experiments.sh" />
         <option value="$PROJECT_DIR$/mains/bash_main.py" />
         <option value="$PROJECT_DIR$/experiments/celebA_gmmf_experiments.sh" />
+        <option value="$PROJECT_DIR$/models/training.py" />
+        <option value="$PROJECT_DIR$/models/robust_training.py" />
+        <option value="$PROJECT_DIR$/experiments/CUB_erm_experiments.sh" />
         <option value="$PROJECT_DIR$/mains/main_bc.py" />
+        <option value="$PROJECT_DIR$/mains/bash_mainbc.py" />
       </list>
     </option>
   </component>
@@ -188,10 +150,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="46" />
-    <option name="y" value="182" />
-    <option name="width" value="1280" />
-    <option name="height" value="740" />
+    <option name="x" value="1339" />
+    <option name="y" value="52" />
+    <option name="width" value="1523" />
+    <option name="height" value="968" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -246,14 +208,70 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="notebook" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GroupBC" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GroupBC" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="models" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GroupBC" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GroupBC" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mains" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GroupBC" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GroupBC" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="general" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GroupBC" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GroupBC" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="experiments" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -490,16 +508,16 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="46" y="182" width="1280" height="740" extended-state="0" />
-    <editor active="false" />
+    <frame x="1339" y="52" width="1523" height="968" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1558966" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1316678" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24687144" sideWeight="0.50254774" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="File Transfer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24687144" sideWeight="0.49745223" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3287037" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="File Transfer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24657534" sideWeight="0.49745223" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19520548" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -550,11 +568,54 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="24" />
+      <option name="time" value="25" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/models/robust_training.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#304#3009#0" expanded="false" />
+            <element signature="e#3184#6838#0" expanded="false" />
+            <element signature="e#7137#11407#0" expanded="false" />
+            <element signature="e#16908#17072#0" expanded="false" />
+            <element signature="e#29255#36340#0" expanded="false" />
+            <element signature="e#32664#32665#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/notebook/read">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mains/bash_mainbc.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" column="20" selection-start-line="20" selection-start-column="20" selection-end-line="20" selection-end-column="20" />
+          <folding>
+            <element signature="e#1877#2477#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mains/bash_main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="23" selection-start-line="4" selection-start-column="23" selection-end-line="4" selection-end-column="23" />
+          <folding>
+            <element signature="e#1668#2268#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/models/model.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1875">
@@ -592,11 +653,11 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#304#3009#0" expanded="false" />
+            <element signature="e#3184#6838#0" expanded="false" />
             <element signature="e#7137#11407#0" expanded="false" />
             <element signature="e#16908#17072#0" expanded="false" />
             <element signature="e#29255#36340#0" expanded="false" />
             <element signature="e#32664#32665#0" expanded="false" />
-            <element signature="e#36692#50488#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -608,9 +669,10 @@
           <folding>
             <element signature="e#223#1059#0" expanded="false" />
             <element signature="e#1102#3079#0" expanded="false" />
-            <element signature="e#3118#3734#0" expanded="false" />
-            <element signature="e#3835#4926#0" expanded="false" />
-            <element signature="e#5244#7690#0" expanded="false" />
+            <element signature="e#3116#3732#0" expanded="false" />
+            <element signature="e#3833#4924#0" expanded="false" />
+            <element signature="e#5242#7688#0" expanded="false" />
+            <element signature="e#8049#16483#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -674,11 +736,11 @@
           <caret line="53" column="29" selection-start-line="53" selection-start-column="29" selection-end-line="53" selection-end-column="29" />
           <folding>
             <element signature="e#304#3009#0" expanded="false" />
+            <element signature="e#3184#6838#0" expanded="false" />
             <element signature="e#7137#11407#0" expanded="false" />
             <element signature="e#16908#17072#0" expanded="false" />
             <element signature="e#29255#36340#0" expanded="false" />
             <element signature="e#32664#32665#0" expanded="false" />
-            <element signature="e#36692#50488#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -690,9 +752,10 @@
           <folding>
             <element signature="e#223#1059#0" expanded="false" />
             <element signature="e#1102#3079#0" expanded="false" />
-            <element signature="e#3118#3734#0" expanded="false" />
-            <element signature="e#3835#4926#0" expanded="false" />
-            <element signature="e#5244#7690#0" expanded="false" />
+            <element signature="e#3116#3732#0" expanded="false" />
+            <element signature="e#3833#4924#0" expanded="false" />
+            <element signature="e#5242#7688#0" expanded="false" />
+            <element signature="e#8049#16483#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -749,7 +812,6 @@
         <state relative-caret-position="390">
           <caret line="107" column="0" selection-start-line="107" selection-start-column="0" selection-end-line="107" selection-end-column="0" />
           <folding>
-            <element signature="e#1#19#0" expanded="false" />
             <element signature="e#175#1643#0" expanded="false" />
             <element signature="e#1663#1694#0" expanded="false" />
             <element signature="e#1729#2025#0" expanded="false" />
@@ -810,11 +872,11 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#304#3009#0" expanded="false" />
+            <element signature="e#3184#6838#0" expanded="false" />
             <element signature="e#7137#11407#0" expanded="false" />
             <element signature="e#16908#17072#0" expanded="false" />
             <element signature="e#29255#36340#0" expanded="false" />
             <element signature="e#32664#32665#0" expanded="false" />
-            <element signature="e#36692#50488#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -826,9 +888,10 @@
           <folding>
             <element signature="e#223#1059#0" expanded="false" />
             <element signature="e#1102#3079#0" expanded="false" />
-            <element signature="e#3118#3734#0" expanded="false" />
-            <element signature="e#3835#4926#0" expanded="false" />
-            <element signature="e#5244#7690#0" expanded="false" />
+            <element signature="e#3116#3732#0" expanded="false" />
+            <element signature="e#3833#4924#0" expanded="false" />
+            <element signature="e#5242#7688#0" expanded="false" />
+            <element signature="e#8049#16483#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -861,7 +924,6 @@
         <state relative-caret-position="15">
           <caret line="1" column="18" selection-start-line="1" selection-start-column="18" selection-end-line="1" selection-end-column="18" />
           <folding>
-            <element signature="e#1#19#0" expanded="false" />
             <element signature="e#175#1643#0" expanded="false" />
             <element signature="e#1663#1694#0" expanded="false" />
             <element signature="e#1729#2025#0" expanded="false" />
@@ -878,6 +940,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
           <caret line="11" column="17" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
+          <folding>
+            <element signature="e#1#25#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -885,6 +950,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
           <caret line="11" column="17" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
+          <folding>
+            <element signature="e#1#25#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -948,17 +1016,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/training.py">
+    <entry file="file://$PROJECT_DIR$/experiments/celebA_gmmf_experiments.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="156" column="54" selection-start-line="156" selection-start-column="54" selection-end-line="156" selection-end-column="54" />
-          <folding>
-            <element signature="e#223#1059#0" expanded="false" />
-            <element signature="e#1102#3079#0" expanded="false" />
-            <element signature="e#3118#3734#0" expanded="false" />
-            <element signature="e#3835#4926#0" expanded="false" />
-            <element signature="e#5244#7690#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="75">
+          <caret line="5" column="40" selection-start-line="5" selection-start-column="40" selection-end-line="5" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/experiments/celebA_erm_experiments.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -993,59 +1061,66 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/robust_training.py">
+    <entry file="file://$PROJECT_DIR$/models/training.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="103" column="19" selection-start-line="103" selection-start-column="19" selection-end-line="103" selection-end-column="19" />
+        <state relative-caret-position="480">
+          <caret line="240" column="41" selection-start-line="240" selection-start-column="41" selection-end-line="240" selection-end-column="41" />
           <folding>
-            <element signature="e#304#3009#0" expanded="false" />
-            <element signature="e#7137#11407#0" expanded="false" />
-            <element signature="e#16908#17072#0" expanded="false" />
-            <element signature="e#29255#36340#0" expanded="false" />
-            <element signature="e#32664#32665#0" expanded="false" />
-            <element signature="e#36692#50488#0" expanded="false" />
+            <element signature="e#223#1059#0" expanded="false" />
+            <element signature="e#1102#3079#0" expanded="false" />
+            <element signature="e#3116#3732#0" expanded="false" />
+            <element signature="e#3833#4924#0" expanded="false" />
+            <element signature="e#5242#7688#0" expanded="false" />
+            <element signature="e#8049#16483#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/notebook/read">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/experiments/CUB_erm_experiments.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="348" selection-start-line="2" selection-start-column="348" selection-end-line="2" selection-end-column="348" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/experiments/celebA_gmmf_experiments.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="40" selection-start-line="5" selection-start-column="40" selection-end-line="5" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/experiments/celebA_erm_experiments.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+        <state relative-caret-position="795">
+          <caret line="53" column="0" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mains/bash_main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="40" column="0" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
+        <state relative-caret-position="2175">
+          <caret line="159" column="0" selection-start-line="159" selection-start-column="0" selection-end-line="159" selection-end-column="0" />
           <folding>
             <element signature="e#1668#2268#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/models/robust_training.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7630">
+          <caret line="1113" column="0" selection-start-line="1113" selection-start-column="0" selection-end-line="1113" selection-end-column="0" />
+          <folding>
+            <element signature="e#304#3009#0" expanded="false" />
+            <element signature="e#3184#6838#0" expanded="false" />
+            <element signature="e#7137#11407#0" expanded="false" />
+            <element signature="e#16908#17072#0" expanded="false" />
+            <element signature="e#29255#36340#0" expanded="false" />
+            <element signature="e#32664#32665#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/mains/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="81">
-          <caret line="249" column="0" selection-start-line="249" selection-start-column="0" selection-end-line="335" selection-end-column="0" />
+        <state relative-caret-position="799">
+          <caret line="309" column="0" selection-start-line="309" selection-start-column="0" selection-end-line="309" selection-end-column="0" />
           <folding>
             <element signature="e#4156#5039#0" expanded="false" />
             <element signature="e#5091#6342#0" expanded="false" />
@@ -1058,18 +1133,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mains/main_bc.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="633">
-          <caret line="368" column="0" selection-start-line="368" selection-start-column="0" selection-end-line="368" selection-end-column="0" />
+        <state relative-caret-position="377">
+          <caret line="324" column="52" selection-start-line="324" selection-start-column="52" selection-end-line="324" selection-end-column="52" />
           <folding>
-            <element signature="e#4214#5097#0" expanded="false" />
-            <element signature="e#5149#6400#0" expanded="false" />
-            <element signature="e#6443#7813#0" expanded="false" />
+            <element signature="e#4188#5071#0" expanded="false" />
+            <element signature="e#5123#6374#0" expanded="false" />
+            <element signature="e#6417#7787#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mains/bash_mainbc.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" column="19" selection-start-line="21" selection-start-column="19" selection-end-line="21" selection-end-column="19" />
+          <folding>
+            <element signature="e#1877#2477#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
   </component>
   <component name="webServersAuthStorage">
-    <data>AAAAsP4CLa8iV1cnr/5hZo/YwdERGRSlLYxc8FVFFPk7GQ97qryvRpPEXlizQBlZRVCcRfBhhAFN8S/GCORfrUJ97cFKgSOPKoh/+3QHrtWF+gproHnK7dPG8orE0rFzlf9XfKVq42I5P3R6XDSUmAEfYMemgDIssF6U55TIBtvIytQ8NpMmkPqCVump3fDgwY7eiNvK5QIMRF/Hr+I0gWabSsuoYqLiVjvqeznkCnLuWgLr908eN0eoky/xaZiJ8q2czw==</data>
+    <data>AAAAsAVIde6J+jn2Q7uhZjCDPAsIqkPY9C0XAoOXQPGFSRWsgXZi07HbuBSrzAM8LyyB6SHvAoh4qmdVuiH+TipH+3NEe872T4NmoB/E1gEbCNxIwjCfPbhnI+tZEkAwYk3qs4GeFGICUcCWt6CkQukkGHJY9FZz/1obtZA5H4vxJrbwKDeFlGA8xqYqrGHj6kBx3xj8jEOKYcdbqNYpE8jaTQImc2UVP9FS7JstdeMoK/ZdM8iCR+acTo2emKGN9fyiMg==</data>
   </component>
 </project>
