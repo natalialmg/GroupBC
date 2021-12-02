@@ -1,7 +1,7 @@
 import numpy as np
 
 dataset ='celebA_blond'
-dataset ='CUB'
+# dataset ='CUB'
 # dataset = 'cifar10'
 
 basedir = '/data/natalia/models/' + dataset + '/'
@@ -13,18 +13,20 @@ augmentation = True
 
 scheduler = None
 # scheduler = 'CosineAnnealingLR'
-scheduler = 'ManualLRDecayPlateau'
+# scheduler = 'ManualLRDecayPlateau'
 scheduler = 'ManualLRDecayNWReset'
 # scheduler = 'OneCycleLR'
 # scheduler = 'MultiStepLR'
 
 train_mode = 'erm'
 train_mode = 'gmmf'
-# train_mode = 'grm'
-# train_mode = 'srm'
+train_mode = 'grm'
+train_mode = 'srm'
 
 
-previous_mode = 'erm'
+# previous_mode = 'erm'
+previous_mode = 'gmmf'
+
 normlayer = 'batchnorm'
 if dataset in ['cifar10']:
     pretrained = False
@@ -58,11 +60,20 @@ if optim == 'sgd':
     if dataset in ['cifar10']:
         lr = 1e-1
         model_name_prefix = model_name_prefix + '_sgd1e1_'
-    elif dataset in ['celebA_blond', 'CUB']:
+    elif dataset in ['CUB']:
 
-        if train_mode in ['gmmf','erm']:
-            lr = 1e-4
-            model_name_prefix = model_name_prefix + '_sgd1e4_'
+        if train_mode in ['erm']:
+            lr = 1e-3
+            model_name_prefix = model_name_prefix + '_sgd1e3_'
+        else:
+            lr = 1e-3
+            model_name_prefix = model_name_prefix + '_sgd1e3_'
+
+    elif dataset in ['celebA_blond']:
+
+        if train_mode in ['erm']:
+            lr = 1e-3
+            model_name_prefix = model_name_prefix + '_sgd1e3_'
         else:
             lr = 1e-3
             model_name_prefix = model_name_prefix + '_sgd1e3_'
@@ -120,15 +131,19 @@ seed_list=[42]
 split_list = [1]
 gpu = 1
 
-file_bash_name = dataset+'_bash.sh'
+file_bash_name = dataset+'_bash2.sh'
 
 #(valid for gmmf,grm,srm)
 group_param_dic = {'mw0wc05c025':[0.0,0.5,0.25]} #min_weight, max_weight_change, cost_delta_improve
 
 
 if previous_mode == 'erm':
-    if dataset == 'CUB':
+    if dataset in ['CUB','celebA_blond']:
         previous_model = basedir + 'erm_resnet34_pretrained_batchnorm_sgd1e4_ManualLRDecayPlateau_reg1e4_datared04_CE_seed42_split1'
+
+if previous_mode == 'gmmf':
+    if dataset in ['CUB','celebA_blond']:
+        previous_model = basedir + 'gmmf_resnet34_pretrained_batchnorm_sgd1e4_ManualLRDecayNWReset_reg1e4_datared04_mw0wc05c025_CE_seed42_split1'
 
 with open(file_bash_name,'w') as f:
     for split in split_list:
