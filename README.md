@@ -2,8 +2,10 @@
 
 Code for the methods presented in the paper :
 
-
+Distributionally Robust Group Backwards Compatibility - Martin Bertran, Natalia Martinez, Alex Oesterling, Guillermo Sapiro.
+https://openreview.net/forum?id=pQTefY7pya6
 Workshop on Distribution shifts: connecting methods and applications (DistShift Neurips'21)
+
 
 # Running Experiments
 
