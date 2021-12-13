@@ -1,4 +1,4 @@
-# GroupBC
+## GroupBC: Group Backwards Compatibility 
 
 Code associated to the paper :
 
@@ -8,7 +8,7 @@ https://openreview.net/forum?id=pQTefY7pya6
 Workshop on Distribution shifts: connecting methods and applications (DistShift Neurips'21)
 
 
-# Running Experiments
+### Running Experiments
 
 -- Waterbird dataset --
 
@@ -23,7 +23,7 @@ Workshop on Distribution shifts: connecting methods and applications (DistShift 
 
 * Original model (h1) is GMMF (group minimax), Updated Model (h2) is ERM,GMMF,GRM,SRM :  /experiments/celebA_gmmf_experiments.sh  
 
-# Analyze Results, Generate Tables 
+### Analyze Results, Generate Tables 
 
 * notebook/PrintResults.ipynb
 
