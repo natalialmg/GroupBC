@@ -181,7 +181,7 @@ if __name__== '__main__':
 
     if cparser.split > 0:
         from sklearn.model_selection import StratifiedKFold
-        skf = StratifiedKFold(n_splits=5, random_state=cparser.seed_dataset)
+        skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=cparser.seed_dataset)
         skf.get_n_splits(pd_train)
         index_splits = skf.split(pd_train, pd_train[strat_tag].values)
 
